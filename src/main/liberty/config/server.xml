@@ -1,0 +1,24 @@
+<server description="Intro REST Guide Liberty server">
+
+    <featureManager>
+        <feature>servlet-5.0</feature>
+
+        <!-- needed to run JSP examples -->
+        <feature>pages-3.0</feature>
+    </featureManager>
+
+    <!-- from what i read online, this setting is needed in order to see the generated servlet java code for the jsp file -->
+    <jspEngine keepGenerated ="true"/>
+
+    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+                  id="defaultHttpEndpoint" host="*" />
+
+    <variable name="port" value="9084"/>
+
+    <webApplication location="ServletExperiments.war" contextRoot="${app.context.root}">
+        <appProperties>
+            <property name="port" value="9080"/>
+        </appProperties>
+    </webApplication>
+
+</server>
