@@ -1,3 +1,206 @@
+===============================================================================================================
+===============================================================================================================
+Section 1 - Get started right
+
+===============================================================================================================
+Chapter 1 - An introduction to web programming with Java
+
+    In this book you will learn all the skills you need to create a shopping cart application like this one.
+
+    To access a web application you use a web browser that runs on a client computer.
+
+    How static web pages work
+        When the web service receives an HTTP request from a browser, the server gets the requested HTML file from the
+        disk and sends the file back to the browser in the form of an HTTP response.The HTTP response includes the HTML
+        document that the user requested and any other resource specified by the HTML code such as graphic files.
+
+        Browser -> Web Server -> Html File
+                <- Web Server    <-
+
+    How a web server processes dynamic web pages
+         Browser -> Web Server -> Web Application -> Database server
+                 <- Web Server    <-                        <-
+
+!!  3 approaches for java web applications (most common used at the time the book was written 2014)
+        1. Servlet/JSP
+        In a well-structured servlet/JSP application, servlets store the Java code that
+        does the server-side processing, and JavaServer Pages (JSPs) store the HTML
+        that defines the user interface. This HTML typically contains links to CSS and
+        JavaScript files. To run a web application that uses servlets and JSPs, you only
+        need to work with the servlet/JSP part of the Java EE specification.
+!!!
+        Since the servlet/JSP API is a relatively low-level API, it doesn’t do as much
+        work for the developer as the other two APIs. However, the servlet/JSP API gives
+        the developer a high degree of control over the HTML, CSS, and JavaScript
+        that’s returned to the browser. In addition, the servlet/JSP API is the foundation
+        for the other two approaches. As a result, it’s a good place to get started with
+        Java web programming. As you progress through this book, you'll learn how to
+        develop servlet/JSP applications.
+
+        2. JSF
+        JavaServer Faces (JSF) is a newer technology that’s designed to replace
+        both servlets and JSPs. It provides a higher-level API that does more work for
+        the programmer. When you use JSF, you typically use more Java EE features
+        than you do with the servlet/JSP approach.
+        When you use JSF, you can also use Enterprise JavaBeans (EJBs) to define
+        server-side components. Although there are some benefits to using EJBs, they're
+        overkill for most websites. As a result, this book doesn’t show how to use them.
+
+!!      3. Spring Framework
+        Like JSF, the Spring Framework is a higher-level API that does more work
+        for the programmer than the servlet/JSP API. However, due to the way it’s struc-
+        tured, the Spring Framework still gives the developer a high degree of control
+        over the HTML/CSS/JavaScript that’s returned to the browser. As a result, if
+        control over HTML/CSS/JavaScript is a priority for your website, the Spring
+        Framework might be the right approach for you.
+
+    In addition to working with servlets and JSPs the server must also run a servlet/JSP engine which is also known as
+    a servlet/JSP container (ex Tomcat...OpenLiberty is a full Java EE application server..thus it has more implementations
+    of the JAVA EE specification).
+
+    The architecture
+        1.The presentation layer for a typical servlet/JSP web application consists of HTML
+        pages and JSPs.
+
+        2.The business rules layer for a typical servlet/JSP web application consists of
+        servlets. These servlets may call other Java classes including a special type of Java
+        class known as a JavaBean. As you progress though this book, you'll learn how to
+        use several special types of tags within a JSP to work with JavaBeans.
+
+        3.The data access layer for a typical Java web application consists of classes that
+        read and write data that’s stored on the server’s disk drive.
+        For most web applications, the data is stored in a relational database such as
+        MySQL. However, it may also be stored in binary files, text files, or XML files.
+
+    The standard directories and files
+        The WEB-INF directory that’s subordinate to the document root directory
+        typically contains a web.xml file for the application. You'll learn more about
+        this file in the next chapter. In addition, you can use this directory or any of its
+        subdirectories to store files that you don’t want to be directly accessible from the
+!!!     web. For example, some applications in this book use the WEB-INF directory to
+        store data files. This prevents users from directly accessing these files.
+
+
+===============================================================================================================
+Chapter 2 - How to structure a web app with the MVC pattern
+
+    The model 2 MVC pattern
+        Figure 2-2 shows the Model 2 pattern. This pattern separates the code for the
+        application into three layers: the model, the view, and the controller. As a result,
+        this pattern is also known as the Model-View-Controller pattern (MVC pattern).
+        This pattern works better than the Model | pattern whenever the processing
+        requirements are substantial.
+
+        In the MVC pattern, the model defines the business layer of the application.
+        This layer is usually implemented by JavaBeans, which you'll learn more about
+        in a moment. This type of class defines the data for the business objects and
+        provides the methods that do the business processing.
+
+        The view defines the presentation layer of the application. Since it’s cumber-
+        some to use a servlet to send HTML to a browser, an MVC application uses
+        HTML documents or JSPs to present the view to the browser.
+
+        The controller manages the flow of the application, and this work is done
+        by one or more servlets. To start, a servlet usually reads any parameters that are
+        available from the request. Then, if necessary, the servlet updates the model and
+        saves it to the data store. Finally, the servlet forwards the updated model to one
+        of several possible JSPs for presentation.
+
+        Here again, most applications need to map the data in the model to a data
+        store. But the JavaBeans usually don’t provide the methods for storing their own
+        data. Instead, data access classes like the UserDB class provide those methods.
+        That separates the business logic from the data access operations.
+
+        When you use the MVC pattern, you should try to keep the model, view,
+        and controller as independent of each other as possible. That makes it easier to
+        modify an application later on. If, for example, you decide to modify an applica-
+        tion so it presents the view in a different way, you should be able to modify the
+        view layer without making any changes to the controller or model layers. In
+        practice, it’s difficult to separate these layers completely, but complete indepen-
+        dence is the goal.
+
+    The servlet for the back-end processing
+        Each servlet is a Java class that extends the HttpServlet class. In this figure,
+        for example, the servlet is a Java class named EmailListServlet that extends the
+        HttpServlet class. This servlet begins by overriding the doPost method of the
+        HttpServlet class. This method is executed when its URL receives an HTTP
+        request that uses the POST method.
+
+
+        After the if/else statement finishes, the servlet can return HTML to the
+        browser by forwarding the request and response objects to the specified URL.
+        This URL is typically a JSP, but can also be an HTML page. In this figure, for
+        example, the code can forward these objects to the HTML file for the first page
+        of the application or the JSP for the second page of the application. Since this
+        code controls the flow of the web application, this servlet is known as a
+        controller in the MVC pattern.
+
+    Java bean requirements  (this is my title)
+        Figure 2-7 shows the code for the User class. This class 1s a JavaBean, or
+        bean, because it follows the three rules that all JavaBeans must follow.
+
+        First, a JavaBean must contain a zero-argument constructor, which is a
+        constructor that doesn’t accept any arguments. In this figure, the zero-argument
+        constructor uses three statements to set all three instance variables equal to
+        empty strings. As a result, a newly created User object stores empty strings for
+        its instance variables instead of null values, which is usually what you want.
+
+        Second, a JavaBean must contain get and set methods for all of the proper-
+        ties that need to be accessed by JSPs. In this figure, for example, the methods
+        provide access to all of the instance variables of the User class, so this class
+        qualifies as a bean. Of course, you can also code get and set methods that
+        provide access to other properties in a bean.
+
+        To provide access to a Boolean value, you code is and set methods instead of
+        get and set methods. For example, you could code methods named
+        isEmailUpdated and setEmailUpdated to provide access to a Boolean property
+        named emailUpdated.
+
+        When you code the get, set, and is methods, you must follow the capitaliza-
+        tion conventions used in this figure. In other words, each method name must start
+        with a lowercase letter, followed by a property name that starts with an upper-
+        case letter as in firstName.
+
+        Third, a JavaBean must implement the Serializable or Externalizable inter-
+        face. The Serializable interface is a tagging interface in the java.io package that
+        indicates that a class contains get, set, and is methods that another class can use
+        to read and write an object’s instance variables to and from a persistent data
+        source. In this figure, for example, the User class implements the Serializable
+        interface and contains all the necessary get and set methods. As a result, some
+        servlet engines can save and restore this object if that’s necessary. For example,
+        the Tomcat container can save the User object’s state before it shuts down, and it
+        can restore the User object’s state when it starts up the next time.
+
+        When coding a web application, it’s common to use JavaBeans to define the
+        business objects of an application. These beans can be called invisible JavaBeans
+        because they don’t define visible components. The focus of this book is on this
+        tvpe of JavaBean.
+
+    The JSP for the second page
+        The main benefit that you get from coding your business classes so they
+        qualify as JavaBeans is that you can then use special JSP tags for working with
+        the beans. This is illustrated by the JSP in figure 2-8.
+
+        Most of this code is HTML code. In fact, the only other code in this page is
+        the three special JSP tags that are shaded. This makes JSPs easy to write if you know HTML.
+
+!!!     The three JSP tags shown in this figure are Expression Language (EL) tags,
+        and they're easy to identify because they begin with a dollar sign ($) followed
+        by an opening brace ({), and they end with a closing brace (}). These tags work
+        because the servlet in figure 2-6 stored the User object as an attribute of the
+        request object with a name of user. In addition, this works because the User
+        object has getEmail, getFirstName, and getLastName methods that provide
+        access to the data that’s stored in the User object.
+
+!!!     Although it’s possible to embed Java code in a JSP, that’s generally consid-
+        ered a bad practice. Instead, it’s considered a good practice to restructure the
+        app to move the Java code into a servlet that forwards the request and response
+        objects to the JSP. That way, the servlet does the processing, and the JSP
+        provides the HTML for the user interface. With this approach, the JSP doesn’t
+        require any embedded Java code, only special JSP tags like the ones shown in
+        this figure. And that means that the web designer can develop the JSPs with
+        minimal interaction with the Java programmer, and the Java programmer can
+        develop the servlets without worrying about the HTML.
 
 
 
@@ -9,5 +212,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Video tutorial links
+
+https://www.youtube.com/watch?v=7AIjcZMo-V4
+https://www.youtube.com/watch?v=7TOmdDJc14s&list=PLsyeobzWxl7pUPF2xjjJiG4BKC9x_GY46
+https://www.youtube.com/watch?v=b42CJ0r-1to&list=PLE0F6C1917A427E96
+https://www.youtube.com/watch?v=GbvuAIhLUZU&list=PLE0F6C1917A427E96&index=9
+(diagrama faina legata de request/response objects si un web server..)
+https://www.youtube.com/watch?v=sHpUrCJmCWs&list=PLE0F6C1917A427E96&index=10
+https://www.youtube.com/watch?v=ji_N8pspwn0&list=PLE0F6C1917A427E96&index=11
+(explica cum obiectele Servlet sunt instantiate de server,si apoi fiecare request e procesat intr-un alt thread…se
+poate vedea simplu printand id-ul threadului curent intr-un servlet..)
+https://www.youtube.com/watch?v=zk_zEp-mtvQ&list=PLE0F6C1917A427E96&index=19
+(MVC nice example presentation)
+
+Other relevant articles
 
 https://www.javatpoint.com/model-1-and-model-2-mvc-architecture
