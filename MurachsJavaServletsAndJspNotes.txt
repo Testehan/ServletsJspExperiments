@@ -203,6 +203,110 @@ Chapter 2 - How to structure a web app with the MVC pattern
         develop the servlets without worrying about the HTML.
 
 
+===============================================================================================================
+===============================================================================================================
+Section 2 - Essential Servlet and JSP Skills
+
+===============================================================================================================
+Chapter 4 - A crash course in HTML5 and CSS3
+
+    <!DOCTYPE html> - use this at the top of html5 files to specify html version
+
+    Some of the elements are block elements and some are inline elements. The difference is that by default block
+    elements are displayed on their own lines. In constrast inline elements flow to the right of preceeding elements
+    and don't start new lines. As a result you need to use a br element after an inline element if you want to
+    start a new line after it.
+
+    The primary HTML5S semantic elements
+
+        Element     Contents
+        header      The header for a page.
+        section     A generic section of a document that doesn’t indicate the type of content.
+        article     A composition like an article in the paper.
+        nav         A section of a page that contains links to other pages or placeholders.
+        aside       A section of a page like a sidebar that is related to the content that’s near it.
+        figure      An image, table, or other component that’s treated as a figure.
+        footer      The footer for a page.
+
+!!!
+    2 benefits of using these HTML5 elements are simplified HTML and CSS and 2 improved SEO
+
+!!! How to use the div and span elements with HTML5
+        If you have experience with HTML, you are probably familiar with the div
+        element. Traditionally, it was used to divide an HTML document into divisions
+        that are identified by id attributes, as shown in the first example of figure 4-4.
+        Then, CSS can use the ids to apply formatting to the divisions.
+
+        But now that HTMLS is available, div elements shouldn’t be used to struc-
+        ture a document. Instead, they should only be used when the HTMLS semantic
+        elements aren’t appropriate and no structure is implied. If, for example, you want
+        to group a series of elements so you can apply CSS to them, you can put them
+        within a div element. But that doesn’t affect the structure of the content that’s
+        implied by the HTMLS elements.
+
+        Note too that div elements are often used in JavaScript applications. If, for
+        example, a section element contains three h2 elements with each followed by a
+        div element, JavaScript can be used to display or hide a div element whenever
+        the heading that precedes it is clicked. Here again, this doesn’t affect the struc-
+        ture of the content that’s implied by the HTMLS elements.
+
+        Similarly, span elements have historically been used to identify portions of
+        text that can be formatted by CSS. By today’s standards, though, it’s better to
+        use elements that indicate the contents of the elements, like the cite, code, and q
+        elements.
+
+        But here again, span elements are often used in JavaScript applications. This
+        is illustrated by the second example in this figure. Here, span elements are used
+        to display the error messages for invalid entries.
+
+
+    https://html5test.com/      to see how compatible your browser is with HTML5
+
+    The two workarounds for using the HTML5 semantic elements
+        (these are needed in case you use html5 elements and you want your website to work well on older browsers)
+
+        The JavaScript shiv that lets older browsers know about the elements
+            <script src="http://html5shiv.googlecode.com/svn/trunk/htm15.js"></script>
+
+        The CSS rule set that sets the eight semantic elements to block elements
+            article, aside, figure, figcaption, footer, header, nav, section {
+                display: block;
+            }
+
+    Examples of links
+
+        Relative to the current directory
+            <a href="join.html">The Email List application 1</a><br>
+            <a href="email/join.html">The Email List application 2</a><br>
+            <a href="../">Go back one directory level</a><br>
+            <a href="../../">Go back two directory levels</a><br>
+
+        Relative to the webapps directory
+            <a href="/">Go to the default root directory for the web server</a><br>
+            <a href="/musicStore">Go to the root directory of the musicStore app</a>
+
+        Absolute URLs
+            <a href="http://www.murach.com/email">An Internet address</a>
+            <a href="http://64.71.179.86/email">An IP address</a>
+
+    How to code the basic CSS selector
+        One of the key points here is that a class attribute can have the same value
+        for more than one element on a page. Then, if you code a selector for that class,
+        it’s used to format all the elements in that class. In contrast, since the id for
+!!      an element must be unique, an id selector can only be used to format a single element.
+
+!!!     Another key point is that a more specific style overrides a less specific style.
+        For instance, an id selector is more specific than a class selector, and a class
+        selector is more specific than a type selector. That means that a style for an id
+        selector overrides the same style for a class selector, which overrides the same
+        style for a type selector. Beyond that, the rules in a rule set flow from top to
+        bottom. So, if you've set multiple rules for a property of an element, the last one
+        overrides the previous ones.
+
+        As you may know, there are many other types of selectors that you can use
+        with CSS. But the ones in this figure should get you started with CSS. They are
+        also the only ones that are used by the applications in this book.
+
 
 
 
