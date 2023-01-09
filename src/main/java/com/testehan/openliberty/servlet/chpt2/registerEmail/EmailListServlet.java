@@ -13,6 +13,8 @@ public class EmailListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = "/index.html";
 
+        log("I am in post method"); // this will appear in the file messages.log (target/liberty/wlp/usr/servers/defaultServer/logs/messages.log)
+
         // get current action
         String action = req.getParameter("action");
         if (action == null) {

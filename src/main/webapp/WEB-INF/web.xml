@@ -21,5 +21,28 @@
     </servlet-mapping>
 
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/error_404.jsp</location>
+    </error-page>
+
+    <!--
+    When you’re developing an application, you
+    probably won’t want to implement custom error pages. That way, when an error
+    occurs, Tomcat displays an error page that you can use to debug the error. Before
+    you deploy an application, though, you may want to implement custom error
+    pages that present errors in a user-friendly way that’s consistent with the rest of
+    your application.
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/jsp/error_java.jsp</location>
+    </error-page>
+
+    -->
+
+    <context-param>
+        <param-name>specialEmail</param-name>
+        <param-value>dan@yahoo.com</param-value>
+    </context-param>
 
 </web-app>
