@@ -21,10 +21,12 @@
     <p>To enter another email address, click on the Back button in your browser or the Return button shown below.</p>
 
     <form action="html/registerEmail.html" method="get">
-    <input type="hidden" name="action" value="join">
-    <input type="submit" value="Return">
-
+        <input type="hidden" name="action" value="join">
+        <input type="submit" value="Return">
     </form>
+
+
+    <%@ include file="includes/footer.jsp" %>
 
 </body>
 </html
