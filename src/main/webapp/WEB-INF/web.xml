@@ -15,11 +15,46 @@
         <servlet-class>com.testehan.openliberty.servlet.chpt2.registerEmail.EmailListServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>PageVisitsInSession</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt7.session.PageVisitsInSession</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PageVisitsInCookieServlet</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt7.cookie.PageVisitsInCookieServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SqlGatewayServlet</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt12.SqlGatewayServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendEmailServlet</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt14.SendEmailServlet</servlet-class>
+    </servlet>
+
+
     <servlet-mapping>
         <servlet-name>EmailListServlet</servlet-name>
         <url-pattern>/emailList</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>PageVisitsInSession</servlet-name>
+        <url-pattern>/pagevisitsinsession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PageVisitsInCookieServlet</servlet-name>
+        <url-pattern>/pagevisitsincookie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SqlGatewayServlet</servlet-name>
+        <url-pattern>/jsp/sqlGateway</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendEmailServlet</servlet-name>
+        <url-pattern>/sendEmail</url-pattern>
+    </servlet-mapping>
 
     <error-page>
         <error-code>404</error-code>
