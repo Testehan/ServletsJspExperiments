@@ -1,10 +1,14 @@
-<server description="Intro REST Guide Liberty server">
+<server description="Intro Servlet and related tech Guide Liberty server">
 
     <featureManager>
         <feature>servlet-5.0</feature>
 
         <!-- needed to run JSP examples -->
         <feature>pages-3.0</feature>
+
+        <!-- needed to make JDBC calls -->
+        <feature>jdbc-4.3</feature>
+
     </featureManager>
 
     <!-- from what i read online, this setting is needed in order to see the generated servlet java code for the jsp file -->
@@ -20,5 +24,9 @@
             <property name="port" value="9080"/>
         </appProperties>
     </webApplication>
+
+    <library id="jdbcLib">
+        <fileset dir="jdbc" includes="*.jar"/>
+    </library>
 
 </server>
