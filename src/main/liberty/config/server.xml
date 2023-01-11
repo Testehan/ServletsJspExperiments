@@ -9,6 +9,8 @@
         <!-- needed to make JDBC calls -->
         <feature>jdbc-4.3</feature>
 
+        <!-- for TLS -->
+        <feature>transportSecurity-1.0</feature>
     </featureManager>
 
     <!-- from what i read online, this setting is needed in order to see the generated servlet java code for the jsp file -->
@@ -29,4 +31,6 @@
         <fileset dir="jdbc" includes="*.jar"/>
     </library>
 
+    <!-- for TLS Liberty server HTTPS port: [ 9443 ] so you need to use this one for https-->
+    <keyStore id="defaultKeyStore" password="yourPassword"/>
 </server>
