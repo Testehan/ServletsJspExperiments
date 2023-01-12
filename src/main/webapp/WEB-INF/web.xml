@@ -32,7 +32,10 @@
         <servlet-name>SendEmailServlet</servlet-name>
         <servlet-class>com.testehan.openliberty.servlet.chpt14.SendEmailServlet</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt16.AdminServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>EmailListServlet</servlet-name>
@@ -55,6 +58,11 @@
         <servlet-name>SendEmailServlet</servlet-name>
         <url-pattern>/sendEmail</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
 
     <error-page>
         <error-code>404</error-code>
@@ -79,5 +87,21 @@
         <param-name>specialEmail</param-name>
         <param-value>dan@yahoo.com</param-value>
     </context-param>
+
+    <!-- SECURITY ROLES -->
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AdminViewProperties</web-resource-name>
+            <url-pattern>/admin</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 
 </web-app>
