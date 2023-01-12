@@ -1,14 +1,16 @@
-<server description="Intro Servlet and related tech Guide Liberty server">
+<server description="Sample Liberty server">
 
     <featureManager>
+        <feature>appSecurity-4.0</feature>
+
         <feature>servlet-5.0</feature>
 
         <!-- needed to run JSP examples -->
         <feature>pages-3.0</feature>
 
+        <!-- problem with auth is not from a conflic because of these 2 features.. -->
         <!-- needed to make JDBC calls -->
         <feature>jdbc-4.3</feature>
-
         <!-- for TLS -->
         <feature>transportSecurity-1.0</feature>
     </featureManager>
@@ -21,10 +23,18 @@
 
     <variable name="port" value="9084"/>
 
+<!--    <quickStartSecurity userName="Bob" userPassword="bobpwd" />-->
+
+    <include location="userRegistry.xml"/>
+
     <webApplication location="ServletExperiments.war" contextRoot="${app.context.root}">
-        <appProperties>
-            <property name="port" value="9080"/>
-        </appProperties>
+<!-- for some reason this does not work...idk why.. -->
+        <application-bnd>
+            <security-role name="admin">
+                <group name="Manager" />
+            </security-role>
+        </application-bnd>
+
     </webApplication>
 
     <library id="jdbcLib">
@@ -32,5 +42,5 @@
     </library>
 
     <!-- for TLS Liberty server HTTPS port: [ 9443 ] so you need to use this one for https-->
-    <keyStore id="defaultKeyStore" password="yourPassword"/>
+<!--    <keyStore id="defaultKeyStore" password="yourPassword"/>-->
 </server>
