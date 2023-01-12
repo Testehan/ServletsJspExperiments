@@ -1,0 +1,9 @@
+<server description="Sample Liberty server">
+    <basicRegistry id="basic" realm="WebRealm">
+        <user name="bob"
+              password="{xor}PTA9Lyg7" /> <!-- bobpwd -->
+        <group name="Manager">
+            <member name="bob" />
+        </group>
+    </basicRegistry>
+</server>
