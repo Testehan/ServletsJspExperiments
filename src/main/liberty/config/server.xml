@@ -28,7 +28,8 @@
     <include location="userRegistry.xml"/>
 
     <webApplication location="ServletExperiments.war" contextRoot="${app.context.root}">
-<!-- for some reason this does not work...idk why.. -->
+<!-- for some reason this does not work...I think it has something to do with the context root path and other paths
+I managed to make it work in a new project called VulnerableWebApp.. -->
         <application-bnd>
             <security-role name="admin">
                 <group name="Manager" />
@@ -42,5 +43,5 @@
     </library>
 
     <!-- for TLS Liberty server HTTPS port: [ 9443 ] so you need to use this one for https-->
-<!--    <keyStore id="defaultKeyStore" password="yourPassword"/>-->
+    <keyStore id="defaultKeyStore" password="yourPassword"/>
 </server>
