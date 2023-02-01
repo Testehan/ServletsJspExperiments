@@ -36,6 +36,11 @@
         <servlet-name>AdminServlet</servlet-name>
         <servlet-class>com.testehan.openliberty.servlet.chpt16.AdminServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DisplayDataInitializedInListenerServlet</servlet-name>
+        <servlet-class>com.testehan.openliberty.servlet.chpt19.DisplayDataInitializedInListenerServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>EmailListServlet</servlet-name>
@@ -62,6 +67,29 @@
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisplayDataInitializedInListenerServlet</servlet-name>
+        <url-pattern>/listenerdata</url-pattern>
+    </servlet-mapping>
+
+    <!-- WebAppJSF: Faces Servlet -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- WebAppJSF: Faces Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>com.testehan.openliberty.servlet.chpt19.AppStartContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.testehan.openliberty.servlet.chpt19.SessionListener</listener-class>
+    </listener>
 
 
     <error-page>
@@ -103,5 +131,11 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
+
+
+    <context-param>
+        <param-name>custServEmail</param-name>
+        <param-value>service@my-awesome-app.com</param-value>
+    </context-param>
 
 </web-app>

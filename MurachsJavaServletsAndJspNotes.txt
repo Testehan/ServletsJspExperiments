@@ -323,9 +323,127 @@ Chapter 4 - A crash course in HTML5 and CSS3
 
 
 
+        To code a listener, you must implement one of the listener interfaces in the javax.servlet and javax.servlet.http
+        packages.
 
 
+===============================================================================================================
+Chapter 20 - How to work with filters
 
+    Starting with the servlet 2.3 specification, you can add a filter to your web
+    application. For example, you can code a filter class that examines an HTTP
+    request and does some processing based on the values of the HTTP request
+    headers. Sometimes, this processing may include modifying the HTTP
+    response that’s returned to the client. Since filters often work closely with
+    HTTP requests and responses, you may want to read chapter 18 before you
+    read this chapter.
+
+!! A filter can intercept an HTTP request and execute code before or alter the
+   requested servlet or JSP is executed. As a result, filters are ideal for handling
+   cross-cutting concerns, which are aspects of an application that cut across differ-
+   ent parts of an application
+
+   How filters work
+
+       The diagram in figure 20-1 shows how filters work. Here, the application
+       uses two filters (Filter1 and Filter2) and two servlets (Servlet1 and Servlet2). In
+       this diagram, Filter1 has been mapped to Servlet1, while Filter1 and Filter2 have
+       been mapped to Servlet2.
+
+       When a client requests Servlet1, Filter1 can execute some code before the
+       code for Servlet1 is executed. Then, after the code for Servlet1 is executed,
+       Filter1 can execute more code before the response is returned to the client.
+
+       When a client requests Servlet2, both Filter1 and Filter2 can execute some
+       code before the code for Servlet2 is executed. Then, after the code for Servlet2
+       is executed, Filter2 and Filter1 can execute more code before the response is
+       returned to the client.
+
+   Two benefits of filters
+
+       One benefit of filters is that they allow you to create modular code that can
+       be applied to different parts of an application. In other words, the requested
+       servlet doesn’t need to have any knowledge of the filter. As a result, you should
+       be able to turn a filter on or off without affecting the behavior of the servlet.
+
+       Another benefit of filters is that they allow you to create flexible code. This
+       works because you use an application’s web.xml file to control when filters are
+       executed. As a result, you can easily apply filters to different parts of an applica-
+       tion, and you can easily turn a filter on or off.
+
+!!! When to use filters
+
+       As mentioned earlier, filters are ideal for handling cross-cutting concerns.
+       For example, a filter can be used to write data to a log file, handle authentication,
+       or compress a response. In addition, a filter can be used to handle image type
+       conversions, localization, XSL transformations, caching, and so on.
+
+!!!!!  Of course, if your servlet container already provides the type of functionality
+       that you need, it’s usually easier and less error-prone to use the built-in function-
+       ality. As a result, before you code a custom filter to handle a complex task such
+       as compressing responses, you should check the documentation for your servlet
+       container to see if it already provides this type of functionality. Often, it’s just
+       a matter of configuring your servlet container. In chapter 18, for example, you
+       learned how to use Tomcat to automatically compress responses.
+
+    How to add a filter
+
+        Adding a filter to an application works similarly to adding a servlet to an
+        application. To start, you must code a class for the filter. Then, you add some
+        code to the web.xml file to map the filter to one or more URL patterns.
+
+!!!!!   Filters are executed in the order in which they are specified in web.xml, when the
+        request is made..then the servlet/jsp code is executed, then the filters are executed
+        again in the reverse order (see my code example with TestFilter1)
+
+    Two filter classes
+
+!!!!    Now that you’ve learned how to code and configure a simple filter, you’re
+        ready to learn how to code filters that do processing on only one side of the
+        request. With request-side processing, the processing is done before the request
+        reaches the target servlet. With response-side processing, the processing is done
+        after the requested servlet has been executed but before the response is returned
+        to the client.
+
+        When you code filters that only perform processing on one side of the
+        request, the resulting code can be more modular and give you more flexibility
+        when you configure the filter. However, as you'll see later in this chapter,
+        there are times when a filter must perform both request-side and response-side
+        processing.
+
+!!! How to code a filter that performs request-side processing
+
+        Figure 20-4 shows how to code a filter named LogRequestFilter that
+        executes code before the requested servlet is executed. If you study the code for
+        this filter, you'll see that it works similarly to the TestFilter1 presented in figure
+        20-2. However, there are a few differences.
+
+        First, the LogRequestFilter class includes the value of a cookie in the data
+        that it writes to the log file. To do that, this code calls the getCookies method of
+        the HttpServletRequest object to get an array of Cookie objects. Then, it uses the
+        getCookie Value method of the custom CookieUtil class to get the value of the
+        cookie named emailCookie.
+
+!!!!!   Second, this class doesn’t do any processing after the requested servlet is
+        executed. In other words, this servlet doesn’t do any response-side processing.
+        To do that, all of the code for the doFilter method is coded before the statement
+        that calls the doFilter method of the FilterChain object.
+
+        Third, since this class doesn’t call any methods from the request object, it
+        doesn’t bother to cast the ServletResponse object that it receives as a parameter
+        to the HttpServletResponse object. Instead, it passes the ServletResponse object
+        to the doFilter method of the FilterChain object.
+
+!!!!!!   (obviously if you want to do response side processing you do the opposite.)
+
+    How to wrap a request or response object
+        (they use the decorator/wrapper pattern to wrap these 2 objects inside a filter into new objects
+        that have additional functionality)
+
+    How to restrict access by IP address
+        (THE functionality is intended to restrict access by some configurable values, the ip, WHICH are taken
+        from web.xml. The filter obtains the ip address from the request and returns 404 and logs a message if the
+        ip is not in the configured list..)
 
 
 
