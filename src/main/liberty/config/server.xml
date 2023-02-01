@@ -8,6 +8,9 @@
         <!-- needed to run JSP examples -->
         <feature>pages-3.0</feature>
 
+        <!-- needed for JSF -->
+        <feature>faces-3.0</feature>
+
         <!-- problem with auth is not from a conflic because of these 2 features.. -->
         <!-- needed to make JDBC calls -->
         <feature>jdbc-4.3</feature>
