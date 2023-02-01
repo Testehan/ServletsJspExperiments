@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Awesome page</title>
+    <script type="text/javascript">
+        function display(){
+            alert(document.getElementById("myForm:hiddenField").value);
+        }
+    </script>
+</h:head>
+<h:body>
+
+    <br/>
+    <h:form id="myForm">
+        <label>Address:</label>
+        <h:inputTextarea id="address" rows="4" cols="50" value="#{emailList.user.address}" />
+        <h:message showSummary="true" showDetail="false" for="address" />
+        <br/>
+        <label>Accept terms and conditions</label>
+        <h:selectBooleanCheckbox  value="#{emailList.user.termsAndConditionsAccepted}" />
+        <br/>
+        <label>Select courses you are interested in:</label>
+        <h:selectManyCheckbox value = "#{emailList.user.courses}">
+            <f:selectItem itemValue = "C" itemLabel = "C language" />
+            <f:selectItem itemValue = "C++" itemLabel = "C++ language" />
+            <f:selectItem itemValue = "Java" itemLabel = "Java language" />
+            <f:selectItem itemValue = "Javascript" itemLabel = "Javascript language" />
+            <f:selectItem itemValue = "Python" itemLabel = "Python language" />
+        </h:selectManyCheckbox>
+        <br/>
+        <h:selectOneRadio value = "#{emailList.user.language}">
+            <f:selectItem itemValue = "EN" itemLabel = "English" />
+            <f:selectItem itemValue = "RO" itemLabel = "Romanian" />
+        </h:selectOneRadio>
+        <br/>
+        <h:selectOneListbox value = "#{emailList.user.gender}">
+            <f:selectItem itemValue = "M" itemLabel = "Male" />
+            <f:selectItem itemValue = "F" itemLabel = "Female" />
+        </h:selectOneListbox>
+        <br/>
+        <h:selectOneMenu value = "#{emailList.user.salary}">
+            <f:selectItem itemValue = "poor" itemLabel = "Under 1000$" />
+            <f:selectItem itemValue = "average" itemLabel = "Between 1000$ and 3000$" />
+            <f:selectItem itemValue = "rich" itemLabel = "More than 3000$" />
+        </h:selectOneMenu>
+        <br/>
+        <h:inputHidden id="hiddenField" value="This is from hidden field :)" />
+        <br/>
+        <h:commandButton id="submit"  value="Submit" />
+        <br/>
+        <br/>
+        <h:commandButton value="Display Hidden field" onclick="display()" />
+
+        <br/>
+        <h:outputText value = "#{emailList.user.address}" />
+        <br />
+        <h:outputText value = "#{emailList.user.termsAndConditionsAccepted}" />
+        <br />
+        <h:outputText value = "#{emailList.user.courses}" />
+        <br />
+        <h:outputText value = "#{emailList.user.language}" />
+        <br />
+        <h:outputText value = "#{emailList.user.gender}" />
+        <br />
+        <h:outputText value = "#{emailList.user.salary}" />
+    </h:form>
+
+    <br />
+    <br />
+
+    <h:outputLink value="https://www.google.com">
+        <h:outputText value="Google" />
+    </h:outputLink>
+    <br />
+    <h:graphicImage value="/images/cutest-dog.jpg" alt="The image could not be displayed" width="100" height="100" />
+    <br />
+    <h:form>
+        <h:commandLink value="Thanks" action="thanksForRegistering" />
+    </h:form>
+</h:body>
+
+</html>
