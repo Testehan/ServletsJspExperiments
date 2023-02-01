@@ -91,6 +91,15 @@
         <listener-class>com.testehan.openliberty.servlet.chpt19.SessionListener</listener-class>
     </listener>
 
+    <filter>
+        <filter-name>TestFilter1</filter-name>
+        <filter-class>com.testehan.openliberty.servlet.chpt20.TestFilter1</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>TestFilter1</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <error-page>
         <error-code>404</error-code>
