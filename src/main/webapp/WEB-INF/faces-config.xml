@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_3_0.xsd"
+        version="2.3">
+
+
+    <!-- This does not work...I did not spend more time investigating why.. -->
+    <navigation-rule>
+        <from-view-id>conditionalNavigation.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>Type</from-outcome>
+            <if>#{userType.type==2}</if>
+            <to-view-id>user.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>Type</from-outcome>
+            <if>#{userType.admin}</if>
+            <to-view-id>admin.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+
+</faces-config>
