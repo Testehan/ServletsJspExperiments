@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Awesome page</title>
+</h:head>
+<h:body>
+    <br/>
+    <br/>
+    <h1>Just enter some numbers and see some standard validation in action</h1>
+    <h:form id="form">
+        <h:inputText id="field1" required="true" validatorMessage="Must be between 200 ad 1000">
+            <f:validateDoubleRange minimum="200" maximum="1000" />
+        </h:inputText>
+        <h:message for = "field1" style = "color:red" />
+        <br/>
+        <h:inputText id="field2"  required="true" validatorMessage="Must be between 200 ad 1000">
+            <f:validateLongRange minimum="200" maximum="1000" />
+        </h:inputText>
+        <h:message for = "field2" style = "color:red" />
+        <br/>
+        <h:inputText id="field3" required="true" validatorMessage="must be between 6 and 10">
+            <f:validateLength minimum="6" maximum="10" />
+        </h:inputText>
+        <h:message for = "field3" style = "color:red" />
+        <br />
+        <br />
+        <h:commandButton value="Click me" />
+    </h:form>
+
+    <br />
+    <br />
+    <h1>Custom validation in action below</h1>
+    <h:form>
+        <h:inputText id="field1" validator="myValidator" validatorMessage="Must be between 1 ad 10" />
+        <h:message for = "field1" style = "color:red" />
+        <br/>
+        <br />
+        <h:commandButton value="Click me" />
+    </h:form>
+
+</h:body>
+
+</html>
