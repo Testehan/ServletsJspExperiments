@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+</h:head>
+<h:body>
+    <h1>Hello work ! Below are 2 examples of UI components provided by PrimeFaces</h1>
+    <h3>PrimeFaces spinner</h3>
+    <p:spinner />
+    <br />
+    <br />
+    <h3>PrimeFaces text editor :o </h3>
+    <h:form>
+        <p:textEditor id="myEditor" widgetVar="editorWidget" value="#{editor.content}" height="200"/>
+        <br />
+        <!-- Dan: this PF('dilog') searches for a primeFaces element/object with that id, in order to execute method show() in this case -->
+        <h:panelGrid columns="2">
+            <p:commandButton value="Submit" update="display" oncomplete="PF('dilog').show();" icon="pi pi-save" />
+            <p:commandButton value="Clear" update="display" onclick="PF('editorWidget').clear();" icon="pi pi-times" />
+        </h:panelGrid>
+
+        <p:dialog header="Content" widgetVar="dilog" showEffect="fade" hideEffect="fade">
+            <h:outputText id="display" value="#{editor.content}" escape="false" />
+        </p:dialog>
+    </h:form>
+</h:body>
+
+</html>

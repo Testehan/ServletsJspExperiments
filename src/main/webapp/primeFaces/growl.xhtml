@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+    <!-- for css and icons needed for example in the selectBooleanButton example -->
+    <h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+</h:head>
+<h:body>
+    <h:form>
+        <p:growl id="growl" showDetail="false" sticky="false" />
+        <p:panel header="User Login">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel for="username" value="User Name: " />
+                <p:inputText id="username" value="#{userPrime.username}" required="true" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel for="password" value="Password: " />
+                <p:password id="password" value="#{userPrime.password}" required="true" />
+            </h:panelGrid>
+            <p:commandButton value="login" actionListener="#{userPrime.displayMessage}" update="growl" />
+        </p:panel>
+
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <h:outputText value="I accept terms and conditions: " />
+            <p:selectBooleanButton id="button" value="#{userPrime.acceptedTermsAndConditions}" onLabel="Yes" offLabel="No"
+style="width: 80px" onIcon="pi pi-check" offIcon="pi pi-times">
+                <p:ajax update="growl" listener="#{userPrime.addMessage}" />
+        </p:selectBooleanButton>
+    </h:panelGrid>
+
+</h:form>
+
+
+
+</h:body>
+
+</html>
