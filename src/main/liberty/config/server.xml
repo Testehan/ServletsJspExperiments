@@ -1,6 +1,7 @@
 <server description="Sample Liberty server">
 
     <featureManager>
+        <!-- needed for AdminServlet security -->
         <feature>appSecurity-4.0</feature>
 
         <feature>servlet-5.0</feature>
@@ -31,8 +32,6 @@
     <include location="userRegistry.xml"/>
 
     <webApplication location="ServletsJspExperiments.war" contextRoot="${app.context.root}">
-<!-- for some reason this does not work...I think it has something to do with the context root path and other paths
-I managed to make it work in a new project called VulnerableWebApp.. -->
         <application-bnd>
             <security-role name="admin">
                 <group name="Manager" />

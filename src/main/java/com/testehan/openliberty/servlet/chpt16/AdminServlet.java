@@ -27,7 +27,6 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Inside doGet AdminServlet");
         if (securityContext.isCallerInRole("admin")) {
-//            resp.sendRedirect("/admin.jsf");
             resp.getWriter().println("You are in admin page");
         }
     }
