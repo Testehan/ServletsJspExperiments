@@ -28,3 +28,8 @@ br {
 #submit {
     margin-left: 0.5em;
 }
+
+.ui-stack {
+    bottom: 30px;
+    right: 80px;
+}

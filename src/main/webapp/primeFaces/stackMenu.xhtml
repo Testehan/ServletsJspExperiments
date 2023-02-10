@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+    <!-- we need this because inside this css I override a class from primefaces css that puts a wrong location for the stack menu -->
+    <link rel="stylesheet" href="../styles/chpt2/main.css" type="text/css"/>
+</h:head>
+<h:body>
+
+
+    <h1>Hello world ! </h1>
+
+    <h:form>
+        <p:growl id="messages" showDetail="true" />
+
+        <p:stack expanded="true">
+            <p:menuitem value="Facebook" icon="/images/facebook.png" url="https://www.facebook.com" />
+            <p:menuitem value="Twitter" icon="/images/twitter.png" url="https://www.twitter.com" />
+            <p:menuitem value="Instagram" icon="/images/instagram.png" url="https://www.instagram.com"/>
+            <p:menuitem value="Linkedin" icon="/images/linkedin.png" url="https://www.linkedin.com" />
+        </p:stack>
+
+    </h:form>
+
+    <br />
+    <br />
+
+
+</h:body>
+
+</html>
