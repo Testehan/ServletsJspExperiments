@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+</h:head>
+<h:body>
+
+    <p>Depending on what button is pressed, various things are going to be processed based on what is specified in the
+        process attribute. </p>
+    <h:form id="form">
+        <h:panelGrid id="panel" cellpadding="5" columns="2" style="margin-bottom: 10px">
+        <f:facet name="header">
+            <p:messages id="msgs" />
+        </f:facet>
+
+        <p:outputLabel for="txtFirstName" value="Firstname:" />
+        <p:inputText id="txtFirstName" value="#{processBean.firstName}" />
+
+        <p:outputLabel for="txtLastName" value="LastName:" />
+        <p:inputText id="txtLastName" value="#{processBean.lastName}" required="true" requiredMessage="Last name is required" />
+    </h:panelGrid>
+
+    <h:panelGrid columns="6" cellpadding="5">
+        <p:commandButton value="All" id="btnAll" process="@all" update="panel" action="#{processBean.display}"/>
+        <p:commandButton value="Form" id="btnForm" process="@form" update="panel" action="#{processBean.display}"/>
+
+        <!-- when This is clicked, you will see that the form will not be set on the processBean-->
+        <p:commandButton value="This" id="btnThis" process="@this" update="panel" action="#{processBean.display}"/>
+        <!-- when None is clicked, nothing will be processed...the display method is not even called -->
+        <p:commandButton value="None" id="btnNone" process="@none" update="panel" action="#{processBean.display}"/>
+        <!-- when Parent is clicked, panelGrid will be processed...so no data will be set on the processBean-->
+        <p:commandButton value="Parent" id="btnParent" process="@parent" update="panel" action="#{processBean.display}"/>
+        <!-- when Parent is clicked, only field btnLastName from the form will be processed...-->
+        <p:commandButton value="This LastName" id="btnLastName" process="@this,txtLastName" update="panel" action="#{processBean.display}"/>
+    </h:panelGrid>
+
+
+        <p:log /> <!-- nice way to debug the requests sent to the server -->
+    </h:form>
+
+</h:body>
+
+</html>
