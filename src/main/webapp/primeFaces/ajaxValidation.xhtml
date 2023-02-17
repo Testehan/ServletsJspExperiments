@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+</h:head>
+<h:body>
+
+    <p>AJAX validation example: you will see that if you leave the fields empty, and press the Display button, you will get validation
+    errors; now..if the length of the hobby field is less than 2 an error will appear. As you start typing in a value in the hobby
+    field, the value will be validated and once you pass 2 chars the error will not be displayed anymore.</p>
+    <h:form id="form">
+        <p:panel id="panel" header="Student">
+
+            <p:messages id="msgs" />
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{student.name}" required="true" label="Name">
+                    <f:validateLength minimum="2" />
+                </p:inputText>
+                <p:message for="name" display="icon" />
+
+                <p:outputLabel for="hobby" value="Hobby:" />
+                <p:inputText id="hobby" value="#{student.hobby}" required="true" label="Name">
+                    <f:validateLength minimum="2" />
+                    <p:ajax update="msgHobby" event="keyup" />
+                </p:inputText>
+                <p:message for="hobby" id="msgHobby" display="icon" />
+            </h:panelGrid>
+
+            <p:commandButton value="Display" update="panel" action="#{student.display}" />
+
+        </p:panel>
+
+        <p:log /> <!-- nice way to debug the requests sent to the server -->
+    </h:form>
+
+</h:body>
+
+</html>
