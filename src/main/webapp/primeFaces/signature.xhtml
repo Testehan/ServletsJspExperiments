@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>PrimeFaces page</title>
+</h:head>
+<h:body>
+
+    <p>Chips allows you to enter multiple values on an input field. Press enter after each value</p>
+
+    <h:form>
+        <p:signature style="width:400px;height:200px" widgetVar="mySig" value="#{signature.value}" required="true" />
+
+        <p:commandButton value="Submit" update="output" />
+        <p:commandButton value="Clear" type="button" onclick="PF('mySig').clear()" />
+
+        <p:outputPanel id="output">
+            <h:outputText rendered="#{not empty signature.value}" style="display:block" value="My Signature" />
+            <p:signature style="width:400px;height:200px" value="#{signature.value}" readOnly="true" rendered="#{not empty signature.value}" />
+        </p:outputPanel>
+
+    </h:form>
+
+</h:body>
+
+</html>
