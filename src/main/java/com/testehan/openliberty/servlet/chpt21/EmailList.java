@@ -20,7 +20,7 @@ public class EmailList implements Serializable {
     @PostConstruct
     public void init(){
         this.user = new User();
-        this.message = "<h3>Hiiii there !!!!</h3>";
+        this.message = "<h3>Hri there !!!!</h3>";
     }
 
     public User getUser() {

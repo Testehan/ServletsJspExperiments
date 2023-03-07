@@ -19,6 +19,12 @@
     <br />
     <h3>PrimeFaces text editor :o </h3>
     <h:form>
+        <!-- Text editor has all sorts of attributes that I think allow you to store formatting etc:
+            allowBlocks	true	Boolean	Whether to allow blocks to be included.
+            allowStyles	true	Boolean	Whether to allow styles to be included.
+            allowLinks	true	Boolean	Whether to allow links to be included.
+            allowImages	true	Boolean	Whether to allow images to be included.
+         -->
         <p:textEditor id="myEditor" widgetVar="editorWidget" value="#{editor.content}" height="200"/>
         <br />
         <!-- Dan: this PF('dilog') searches for a primeFaces element/object with that id, in order to execute method show() in this case -->
