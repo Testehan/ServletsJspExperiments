@@ -307,25 +307,2060 @@ Chapter 4 - A crash course in HTML5 and CSS3
         with CSS. But the ones in this figure should get you started with CSS. They are
         also the only ones that are used by the applications in this book.
 
+    How to code HTML forms
+        Figure 4-13 shows how to code a form that contains three controls: two text
+        boxes and a button. To code a form, you begin by coding the opening and clos-
+        ing form tags. Within the opening form tag, you must code an action attribute
+        that specifies the servlet or JSP that’s called when the user clicks on the submit
+        button. In addition, you can code a method attribute that specifies the method
+        that’s used for the HTTP request. Within the opening and closing form tags, you
+        code the controls for the form.
+
+        This example shows a form that contains two text boxes and a submit button.
+        When the user clicks on the submit button, the data that’s in the text boxes is
+        passed to the servlet that’s mapped to a URL that ends with contactList. This
+        URL is specified by the action attribute of the form. Although a form can have
+        many controls, it should always contain at least one control that executes the
+        action attribute of the form. Typically, this control is a submit button like the one
+        shown in this figure.
+
+        When you code the action attribute, you typically specify a servlet as shown
+        in this figure. However, you can also specify a JSP by specifying a URL for its
+        file name like this:
+
+        action="contact_list.jsp"
+
+        Within a form element, you typically use the input element to code one or
+        more controls. This figure shows how to use the input element to code a text box
+        and a button. In a moment, you'll learn more about coding these controls.
+
+        When coding controls, you can use the name attribute to specify a name that
+        you can use in your Java code to access the parameter that’s passed from the
+        HTML form to a servlet or JSP. To access the data in the two text boxes in this
+        figure, for example, you can use firstName to access the data that’s been entered
+        in the first text box, and you can use lastName to access the data in the second
+        text box.
+
+        In addition, you can use the value attribute to specify a value for a control.
+        This works differently depending on the control. If, for example, you’re working
+        with a button, the value attribute specifies the text that’s displayed on a button.
+        However, if you’re working with a text box, the value attribute specifies the
+        default text that’s displayed in the box.
+
+===============================================================================================================
+Chapter 5 - How to develop servlets
+
+    How to map a servlet with the web.xml file
+        The second servlet-mapping element uses a wildcard character (*) to map
+        the EmailListServlet to any URL that resides within the email directory. This
+        allows this servlet to be requested by multiple URLs. For example, you could
+        request this servlet with this URL:
+
+        http://localhost:8080/ch05email/email/add
+
+        Or, you could request this servlet with this URL:
+        http://localhost :8080/ch05email/email/addToList
+
+        It’s important to note that this servlet mapping works even if the email directory
+        is a virtual directory that doesn’t actually exist on the server.
+
+    How to map a servlet with an annotation
+        However, if you want to map a servlet to multiple URLs, you can use the
+        urlPatterns attribute of the @WebServlet annotation as shown in the second
+        example. Here, you code an equals sign (=) followed by a set of braces ({ }).
+        Then, within the braces, you code two or more URLs, separating each URL with
+        a comma. If you want, you can use the wildcard character (*) to map a servlet to
+        any URL that resides within a directory. This works as described in the previous
+        figure.
+
+    How to request a servlet
+        The browser shown in this figure contains a URL that calls a servlet and
+        passes three parameters named action, firstName, and lastName. Since this
+        request doesn’t include a parameter for the email address, the email address isn’t
+        shown on the resulting web page.
+
+        There are three ways you can request a servlet.
+        First, you can enter its URL into a browser as shown by the second set of examples. Here, the first URL
+        requests a servlet that’s mapped to the emailList directory that’s running on a
+        local server using port 8080 in an app named ch05email. Then, the second URL
+        requests a servlet that’s mapped to the email/list directory that’s running on the
+        web server for www.murach.com using the default port, port 80.
+
+        Second, you can use a form tag to request a servlet. When you use this
+        technique, you code the action attribute of the form to provide a path and file-
+        name to the servlet’s URL. In this figure, the first form tag requests a servlet
+        that’s mapped to the emailList subdirectory of the current directory. However, if
+        the servlet is stored in a different directory, you can specify a relative or absolute
+        path for the action attribute.
+
+        When you use a form tag to request a URL, you can use the method attribute
+        to specify the HTTP method that’s used for the request. By default, the form tag
+        uses the GET method. However, you can explicitly specify the GET method if
+        you want. In this figure, both of the form tags use the GET method. In the next
+        figure, you'll learn when and how to specify the POST method.
+
+        When you use the GET method to request a servlet, any parameters that are
+        passed to the servlet are displayed in the browser’s URL address. In this figure,
+        for example, the browser’s URL includes three parameters. In the next figure,
+        you'll learn that the POST method doesn’t display the parameters in the URL for
+        the browser.
+
+        Third, you can use an anchor tag to call a servlet. When you use an anchor
+        tag, it always uses the HTTP GET method, and you can append parameters to
+        the end of the URL. In this figure, the anchor tag appends one parameter to the URL.
+
+        How to append parameters to a URL
+            emailList?action=add
+            emailList?firstName=Johné&lastName=Smith
+
+        Three ways to append parameters to a GET request
+
+            Enter the URL into the browser’s address bar
+            http://localhost :8080/ch05email/emailList?action=add&firstName=John
+            http://www.murach.com/email/list?action=add&firstName=John
+
+            Code a form that uses the GET method
+            <form action="emailList">
+            <form action="emailList" method="get">
+
+            Code an anchor tag
+            <a href="emailList?action=join">Display Email Entry Test</a>
+
+    When to use HTTP GET and POST methods
+        So, when should you use the HTTP GET method and when should you use
+        the POST method? In general, you should use the GET method when you want
+        to get (read) data from the server. Similarly, you should use the POST method
+        when you want to post (write) data to the server.
+
+        When you use the GET method, you need to make sure that the page can
+        be executed multiple times without causing any problems. If, for example, the
+        servlet just reads data from the server and displays it to the user, there’s no
+        harm in executing the servlet multiple times. If, for example, the user clicks the
+        Refresh button, the browser requests the URL again, and this doesn’t cause any problems.
+
+        However, if the servlet writes or sends data to the server, you typically don’t
+        want the user to execute the servlet multiple times. As a result, it makes more
+        sense to use the POST method. Then, if the user clicks the Refresh button, the
+        browser displays a dialog box like the one shown in this figure that warns the
+        user that the data is about to be submitted again. At that point, the user can click
+        on the Cancel button to cancel the request.
+
+        There are also a few other reasons to use the POST method, First, since
+        the POST method doesn’t append parameters to the end of the URL, it is more
+        appropriate for working with sensitive data. Second, since the POST method
+        prevents the web browser from including parameters in a bookmark for a page,
+        you'll want to use it if you don’t want the parameters to be included in the
+        bookmark. Third, if your parameters contain more than 4 KB of data, the GET
+        method won’t work so you'll need to use the POST method.
+
+        For all other uses, the GET method is preferred. It runs slightly faster than
+        the POST method, and it lets the user bookmark the page along with the param-
+        eters that are sent to the page.
+
+        Use the GET method when...
+            - The request reads data from the server.
+            - The request can be executed multiple times without causing any problems.
+
+        Use the POST method when...
+            - The request writes data to the server.
+            - Executing the request multiple times may cause problems.
+            - You don’t want to include the parameters in the URL for security reasons.
+            - You don’t want users to be able to include parameters when they bookmark a page.
+            - You need to transfer more than 4 KB of data.
 
 
+    How to get the values of the parameters
+        To get the text that a user has entered into a text box, you can call the
+        getParameter method from the request object and specify the name of the text
+        box. In this figure, for instance, the first example gets the text that’s stored in the
+        text box that has a name attribute of “firstName”’. You can use a similar tech-
+        nique to work with other controls. For example, you can use this technique to get
+        the selected value from a combo box or a group of radio buttons.
+
+        For checkboxes that have a value attribute, the getParameter method returns
+        that value if the checkbox is selected and a null value if it isn’t. However, if the
+        checkbox doesn’t have a value attribute, the getParameter method returns an
+        “on” value if the checkbox is selected and a null value if it isn’t. As a result, you
+        can determine whether the user has selected a check box by checking whether its
+        value is null as shown in the second example.
+
+        To retrieve multiple values for one parameter name, you can use the
+        getParameterValues method as illustrated by the third example. This is useful for
+        controls like list boxes that allow multiple selections. After you use the
+        getParameterValues method to return an array of String objects, you can use a
+        loop to get the values from the array as shown in the third example.
+
+    How to get the real path or a file
+
+    How to forward requests
+        To do that, you begin by calling the getServletContext
+        method from the HttpServlet class to return a ServletContext object. Then, you
+        call the getRequestDispatcher method of the ServletContext object to return a
+        RequestDispatcher object. Within this method, you must code a URL that starts
+        with a slash so it is relative to the root directory of the current web application.
+        Then, you use the forward method to forward the request and response objects to
+        the HTML page, JSP, or servlet specified by the URL.
+
+        In the examples in this figure, the first statement sets the string for the
+        URL. Then, the second statement gets the ServletContext object, gets the
+        RequestDispatcher object for the URL, and forwards the request. In these
+        examples, the second statement uses method chaining as described earlier in this
+        chapter.
+
+        How to forward the request to an HTML page
+            String url = "/index.html";
+            getServletContext ().getRequestDispatcher(url).forward(request, response);
+
+        How to forward the request to a JSP
+            String url = "/thanks.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+
+        How to forward the request to a servlet
+            String url = "/cart/displayInvoice";
+            getServletContext ().getRequestDispatcher(url).forward(request, response);
+
+    How to redirect responses
+        This figure also shows how to redirect a response. To do that, you use the
+        sendRedirect method of the response object. You typically use this technique
+        when you want to transfer control to a URL outside of your application. To use
+        this method, you often supply an absolute URL. However, you can also supply
+        a relative URL because the servlet engine can convert it to an absolute URL. If
+        you begin the pathname with a slash, the servlet engine interprets the path as
+        relative to the root directory for the servlet engine.
+
+        When you call the sendRedirect method, the server sends an absolute
+        URL to the browser. Then, the browser sends a request for that URL. Since
+        this processing occurs on the client side rather than the server side, this isn’t as
+        efficient as forwarding a request as shown earlier in this figure. In addition, the
+        sendRedirect method doesn’t transfer the request and response objects. As a
+        result, you should only use the sendRedirect method when you want to redirect
+        to a URL that’s available from another web application.
+
+        How to redirect a response relative to the current directory
+            response.sendRedirect("email");
+
+        How to redirect a response relative to the serviet engine
+            response.sendRedirect("/musicStore/email/");
+
+        How to redirect a response to a different web server
+            response.sendRedirect("http://www.murach.com/email/");
 
 
+    How to validate data on client
+        - using JavaScript and jQuery  (a book on js is recommanded)
+
+    How to validate data on server
+        - some basic validation is exemplified, where if one of the fields from the email registration app is missing,
+        then a message object is set into the request and the request is forwarded to the initial page, so that the error
+        message is displayed to the user. Also, a nice, user friendly thing is done...the values that were previously set
+        by the end user, and set on the request and are used to populate in input types, so that he doesn't need to retype
+        everything again, only the missing field
+
+    How to work with the web.xml file
+
+    How to work with initialization parameters
+        If you want to store some initialization parameters for an application in
+        a central location, you can add them to the web.xml file as shown in part | of
+        figure 5-12. Then, your servlets can read these parameters as shown in part 2 of this figure.
+
+!!!     To define a context initialization parameter that’s available to all servlets
+        in the web application, you code a context-param element. Then, you code two
+        child elements: the param-name element and the param-value element. To define
+        multiple context parameters, you can code additional context-param elements
+        after the first one. In this figure, the context-param element defines a parameter
+        named custServEmail that has a value that provides an email address.
+
+!!!     To define a servlet initialization parameter that’s available to a specific
+        servlet, you can code an init-param element within a servlet element. This
+        element follows the servlet-name and servlet-class elements that you learned
+        about earlier in this chapter.
+
+        Within the init-param element, you must code the param-name and param-
+        value elements to define the name and value of the parameter. To define multiple
+        initialization parameters for a servlet, you can code additional init-param
+        elements after the first one. In this figure, the init-param element defines a
+        parameter named relativePathToFile that has a relative path as its value.
+
+!!      With the servlet 3.0 specification (Tomcat 7.0) and later, you can use the
+        @WebServlet and @InitParam annotations to specify servlet initialization
+        parameters. To do that, you can code the @ WebServlet annotation as described
+        earlier in this chapter. However, you use the urlPatterns attribute to specify the
+        URL mapping for the servlet. Then, you use the initParams attribute to specify
+        the initialization parameters for the servlet. To do that, you can code one or more
+        @InitParam annotations. Each of these annotations includes name and value
+        attributes that specify the name and value of the parameter.
+
+        XML elements for working with initialization parameters
+
+       Element                  Description
+        <context-param>         Defines a parameter that’s available to all servlets within an application.
+        <servlet>               Identifies a specific servlet within the application.
+        <servlet-name>          Defines the name for the servlet that’s used in the rest of the web.xml file.
+        <servlet-class>         Identifies the servlet by specifying the servlet’s package and class name.
+        <init-param>            Defines a name/value pair for an initialization parameter for a servlet.
+        <param-name>            Defines the name of a parameter.
+        <param-value>           Defines the value of a parameter.
 
 
+        Part 2 of this figure shows you how to read initialization parameters like
+        those in part 1. To retrieve an initialization parameter that’s available to all
+        servlets, you begin by calling the getServletContext method from anywhere in
+        the servlet to get a ServletContext object. Then, you call the getInitParameter
+        method from the ServletContext object.
+
+        To retrieve an initialization parameter that’s available only to the current
+        servlet, you begin by calling the getServletConfig method from anywhere in the
+        servlet to get a ServletConfig object. Then, you call the getInitParameter method
+        from the ServletConfig object.
+
+        Note that the getInitParameter method works the same whether you call it
+        from the ServletContext object or the ServletConfig object. The only difference
+        is that the ServletContext object returns parameters that are available to all
+        servlets while the ServletConfig object returns parameters that are only available
+        to the current servlet.
+
+        When you call the getInitParameter method, you must specify the name of
+        the parameter. If the parameter exists, the getInitParameter method returns the
+        value of the parameter as a string. Otherwise, this method returns a null value.
 
 
+!!  How to implement custom error handling
+        Figure 5-13 shows how to use the web.xml file to specify custom error pages
+        that apply to the entire application. When you’re developing an application, you
+        probably won’t want to implement custom error pages. That way, when an error
+        occurs, Tomcat displays an error page that you can use to debug the error. Before
+        you deploy an application, though, you may want to implement custom error
+        pages that present errors in a user-friendly way that’s consistent with the rest of
+        your application.
+
+        To specify a custom error page for a specific HTTP status code, you begin
+        by coding an error-page element. Within this element, you code two child
+        elements: the error-code element and the location element. The error-code
+        element specifies the HTTP status code for the error. The location element specifies the location of the
+        custom error page.
+
+        The first example in this figure shows how to code the error-page element for
+        the HTTP 404 status code. Here, the error-code element specifies the number for
+        the HTTP status code. Then, the location element specifies a URL that points to
+        an error page named error_404.jsp that’s stored in the application’s root direc-
+        tory. Note that this element must begin with a slash.
+
+        The second example shows some of the code for a custom error page for the
+        404 status code. This page is a JSP that displays a user-friendly message that
+        describes the HTTP 404 status code.
+
+        The 404 status code indicates that the server wasn’t able to find a file at the
+        requested URL. As you gain more experience with web programming, you'll
+        become familiar with other HTTP status codes. Also, some of the more common
+        ones are summarized in chapter 18.
+
+        To specify a custom error page that’s displayed when an uncaught exception
+        is thrown, you begin by coding an error-page element. Within this element, you
+        code two child elements: the exception-type element and the location element.
+        The exception-type element specifies the type of exception by identifying the
+        package name and the class name for the exception. The location element speci-
+        fies the location of the custom error page.
+
+        The third example shows how to code an error-page element that handles
+        all Java exceptions. Here, the exception-type element specifies the Throwable
+        class in the java.lang package. Since all exceptions inherit this class, this causes
+        a custom error page to be displayed for all uncaught exceptions. However, if
+        you want to display different error pages for different types of exceptions, you
+        can code multiple error-page elements. For example, you can display one error
+        page for exceptions of the NullPointerException type and another error page for
+        exceptions of the ServletException type.
+
+        The fourth example shows some of the code for a custom error page that
+        handles all Java exceptions. This error page uses EL to display the name of the
+        exception’s class and its message. For more information about EL, see chapter 8.
 
 
+        The XML tags that provide error-handling for an HTTP 404 status code
+            <error-page>
+                <error-code>404</error-code>
+                <location>/error_404.jsp</location>
+            </error-page>
+
+        The code for a file named error_404.jsp
+            <hi>404 Error</hl>
+            <p>The server was not able to find the file you requested.</p>
+            <p>To continue, click the Back button.</p>
+
+        The XML tags that provide error-handling for all Java exceptions
+
+        <error-page>
+            <exception-type>java.lang.Throwable</exception-type>
+            <location>/error_java.jsp</location>
+        </error-page>
+
+    More skills when working with servlets
+!!!!    It is considered bad practice to override the sevlet's "service" method.
+
+!!!!    It is considered bad practice to code instance variables for a servlet.
+        The problem with instance variables is that they aren’t thread-safe and they
+        can lead to lost updates and other serious problems. Worse, there’s no easy
+        way to make instance variables thread-safe (2 or more threads may conflict when they try to read modify and
+        update the same instance variable at the same time). As a result, you should never code
+        instance variables for a servlet. As you progress through this book, though,
+        you'll learn several thread-safe techniques for working with global variables so
+        you won’t have to use instance variables.
 
 
+    How the methods of a servlet work
+!!      Figure 5-14 presents some common methods of the HttpServlet class. When
+        you code these methods, you need to understand that the servlet engine only
+        creates one instance of a servlet. This usually occurs when the servlet engine
+        starts or when the servlet is first requested. Then, each request for the servlet
+        starts (or “spawns”) a thread that can access that one instance of the servlet.
+
+!!      When the servlet engine creates the instance of the servlet, it calls the init
+        method. Since this method is only called once, you can override it in your servlet
+        to supply any initialization code that’s required as shown in the next figure.
+
+        After the servlet engine has created the one instance of the servlet, each
+        request for that servlet spawns a thread that calls the service method of the
+        servlet. This method checks the method that’s specified in the HTTP request and
+        calls the appropriate doGet or doPost method.
+
+!!      When you code servlets, you shouldn’t override the service method. Instead,
+        you should override the appropriate doGet or doPost methods. To handle a
+        request that uses the GET method, for example, you can override the doGet
+        method. If, on the other hand, you want to handle a request that uses the POST
+        method, you can override the doPost method. To use the same code to handle
+        both types of requests, you can override both of them and have one call the other
+        as shown in figure 5-1.
+
+!!      If a servlet has been idle for some time or if the servlet engine is shut down,
+        the servlet engine unloads the instances of the servlets that it has created. Before
+        unloading a servlet, though, it calls the destroy method of the servlet. If you
+        want to provide some cleanup code, such as writing a variable to a file, you can
+        override this method. However, the destroy method can’t be called if the server
+        crashes. As a result, you shouldn’t rely on it to execute any code that’s critical to
+        your application.
+
+    Two methods of the HttpServiet class used to log errors
+        Method                              Description
+        log(String message)                 Writes the specified message to the server's log file.
+        log(String message, Throwable t)    Writes the specified message to the server's log file,
+                                            followed by the stack trace for the exception.
 
 
+===============================================================================================================
+Chapter 6 - How to develop JavaServer Pages
 
+    How to use ELto get attributes and JavaBean properties
+!!      Whenever you use EL, you begin by coding a dollar sign ($) followed by an
+        opening brace ({) and a closing brace (}). Then, you code the expression within
+        the braces.
+
+!!!     When you store an attribute in the HttpServletRequest object, that attribute is
+        available only for the current request. This is known as request scope. However,
+        if you want the attribute to be available to all servlets, you can set the attribute
+        in the ServletContext object. This is known as application scope. Or, if you want
+        the attribute to be available to all servlets for the user’s current session, you can
+        set the attribute in the HttpSession object. This is known as session scope. You'll
+!!!!    learn how to do that in the next chapter. Note, however, that application scope
+        isn’t thread-safe.
+
+!!!     When you use EL, you don’t have to specify the scope. Instead, EL automat-
+        ically searches through all scopes starting with the smallest scope (page scope)
+        and moving towards the largest scope (application scope).
+
+        The sequence of scopes that Java searches to find the attribute
+
+        Scope               Description
+        page                The bean is stored in the implicit PageContext object.
+        request             The bean is stored in the HttpServletRequest object.
+        session             The bean is stored in the HttpSession object.
+        application         The bean is stored in the ServletContext object.
+
+    How to use JSP tags
+        These tags allow you to embed Java statements directly into a JSP. Unfortuanetly, when you use these tags
+        in a JSP, they typically result in a mix of Java and HTML.
+!!!!    As a result it is considered a best practice to AVOID these tags unless you are maintaining an old web app
+        and you want to continue using them for the sake of consistency
+
+    How to code directives, scriplets and expressions
+        The top of figure 6-4 summarizes five types of JSP tags. Of these tags, the
+        first three (directives, scriptlets, and expressions) are the most commonly used.
+!!!     Since it’s not a good practice to use the fifth tag (declaration), this book doesn’t show how to use it.
+
+        You can use a directive to import classes in a JSP. In the previous figure,
+        you learned how to use a taglib directive to import the JSTL core library. In this
+        figure, the first example shows how to use a page directive to import classes. To
+        do that, you can code a page directive like the one shown on the first line of this example.
+
+        To start, you code the starting tag and the word page followed by the import
+        attribute. Then, you code an equals sign and a pair of quotes. Within the quotes,
+        you code the names of the Java classes that you want to import, separating each
+        class with a comma. In this figure, the page directive imports two classes in the
+        java.util package. Alternately, you could use a wildcard to import both of these classes like this:
+
+        <%@ page import="java.util.*" %>
+        Once this page directive imports the classes, the JSP can access the
+        GregorianCalendar and Calendar classes without fully qualifying them.
+
+        To code a scriptlet, you code Java statements that end with semicolons
+        within the scriptlet tags.
+
+        The five types of JSP tags
+        Tag         Name                    Purpose
+        <%@ %>      JSP directive           To set conditions that apply to the entire JSP.
+        <% %>       JSP scriptlet           To insert a block of Java statements.
+        <%= %>      JSP expression          To display the string value of an expression.
+        <%-- --%>   JSP comment             To tell the JSP engine to ignore code.
+        <%! %>      JSP declaration         —_ To declare instance variables and methods for a JSP.
+
+!!      When you’re coding a scriptlet or an expression, an HttpServletRequest
+        object named request is automatically available to your code. This object is
+        known as the implicit request object, and you can use any of its methods. In
+        figure 6-4, the second example uses the getAttribute method of the implicit
+        request object to get the message. However, figure 6-5 shows how to use the
+        getParameter method of the request object to get parameters from the request object.
+
+    How to use standard JSP tags with JavaBeans
+
+    How to include a file in a JSP
+        When you're coding a web application, you may want to include the same
+        block of code in several JSPs. For example, you may want to use the same
+        header and footer for several JSPs. Or, you may want to use the same menus or
+        the same combo box for several JSPs. If so, you can store this code in a separate
+        file. Then, you can include the code in that file in a JSP. Files like this are often
+        referred to as includes, and using includes can reduce code duplication and
+        simplify the coding and maintenance of an application.
+
+       (examples of this are in the OpenLibertyExperiments project, in the add.jsp file. Do not that the example is just
+       for one approach of inclusion...see below more info)
+
+    Three techniques for including files in a JSP
+!!!     JSP provides three techniques for including files. Figure 6-10 shows all
+        three. Each of these techniques has its advantages and disadvantages.
+
+        To include a file at compile-time, you can use the include directive as shown
+        in the first example. Within this tag, you type the include keyword followed by
+        the file attribute and the relative path of the file. This example includes header
+        and footer files that are located in a directory named includes that’s in the root
+        directory of the web application.
+
+        To include a file at runtime, you can use the include action as shown in the
+        second example. To do that, you code the jsp:include tag. Within this tag, you set
+        the page attribute to the relative path of the include file.
+
+        Alternately, you can include a file at runtime by using the JSTL import tag
+        as shown in the third example. To do that, you code the import tag and set its url
+        attribute to the path of the include file.
+
+        Neither the include action or the JSTL import tag uses scripting. As a result,
+        it usually doesn’t matter which tag you use. However, the JSTL import tag does
+        provide one advantage: it lets you include files from other applications and web
+        servers. For instance, the last line of code shows how to include a footer.jsp file
+        that’s available from the server for the www.murach.com website.
+
+        When you include a file at compile-time, the code within the file becomes
+        part of the generated servlet. The advantage of this approach is that it allows the
+        servlet engine to return a response to the browser more quickly. However, if you
+        make a change to the included file, the server might not display the change until
+        the JSP is modified and recompiled.
+
+        When you include a file at runtime, the included file never becomes part of
+        the generated servlet, so the servlet makes a runtime call to get the included file
+        each time the page is requested. The advantage of this approach is that the server
+        always uses the most current version of the included file. However, since this
+        approach makes the generated servlet do extra work with each request, it doesn’t
+        run as efficiently as the first approach.
+
+        In the end, the approach that you choose depends on the requirements of
+        your application. If you are fairly certain that the include files won’t change
+        often, you should use the first approach since it’s more efficient. For example,
+        since the header and footer files presented in the previous figure probably won't
+        change once the web application is put into production, it makes sense to include
+        them at compile-time. In addition, many servlet engines, including Tomcat 5 and
+        later, automatically detect changes to included files. As a result, if you’re using a
+        newer servlet engine, you can usually include files at compile-time.
+
+        However, if you want to use include files to display information that may
+        change regularly, and you need to guarantee that these changes will be displayed
+        immediately, you should use the second or third approach. That way, the servlet
+        for the JSP doesn’t need to be regenerated and recompiled to display the updated include file.
+
+
+===============================================================================================================
+Chapter 7 - How to work with Sessions ans Cookies
+
+    Keeping track of users as they move around a website is known as session
+    tracking. To start, you'll learn how the servlet API tracks sessions, and you'll be
+    introduced to a web application that needs session tracking.
+
+    Why session tracking is difficult with HTTP
+
+!!!     Figure 7-1 shows why session tracking is more difficult for web applications
+        that use HTTP than it is for other types of applications. To start, a browser on a
+        client requests a page from a web server. After the web server returns the page,
+        it drops the connection. Then, if the browser makes additional requests the web
+        server has no way to associate the browser with its previous requests. Since
+        HTTP doesn’t maintain state, it is known as a stateless protocol. In contrast, FTP
+        maintains state between requests so it is known as a stateful protocol.
+
+!!!!
+    How session tracking works in Java
+
+        Figure 7-1 also shows how the servlet API keeps track of sessions. To start,
+        a browser on a client requests a JSP or servlet from the web server, which passes
+        the request to the servlet engine. Then, the servlet engine checks if the request
+        includes an ID for the Java session. If it doesn’t, the servlet engine creates a
+        unique ID for the session plus a session object that can be used to store the data
+        for the session. From that point on, the web server uses the session ID to relate
+        each browser request to the session object, even though the server still drops the
+        HTTP connection after returning each page.
+
+        By default, the servlet API uses a cookie to store the session ID within the
+        client’s browser. This is an extension of the HTTP protocol. Then, when the next
+        request is made, this cookie is added to the request. However, if cookies have
+        been disabled within a browser, this type of session tracking won’t work.
+
+        To get around this problem, the servlet API provides a way to rewrite the
+        URL so it includes the session ID. This is known as URL encoding, and it works
+        even if cookies have been disabled within a browser. However, there are several
+        problems with this approach. First, URL encoding presents a security hole that
+        can allow session hijacking. Second, URL encoding can cause a site to malfune-
+        tion if the user bookmarks a page that includes a session ID.
+
+        Fortunately, cookies have become such an integral part of the web experi-
+        ence that it’s extremely rare for someone to use the web with cookies disabled.
+        As a result, you can usually handle this issue by displaying a message that
+        notifies the user that the website requires cookies to be enabled.
+
+        Before you continue, you should know that there are two types of cookies.
+
+!!!!    A per-session cookie is stored on the browser until the user closes the browser
+        and a persistent cookie can be stored on the user’s hard disk for up to 3 years.
+        The session tracking code presented in this chapter relies on per-session cookies.
+        As a result, per-session cookies must be enabled in the user’s browser for this to work.
+
+    How to set and get Session attributes
+
+        Figure 7-3 shows how to get a session object and how to get and set the
+        attributes of that object. Since the session object is a built-in JSP object, you
+        only need to get a session object when you're working with servlets. To do that,
+        you can call the getSession method of the request object as shown in the first
+        example. Then, if the session object doesn’t exist, this method creates a new one.
+        Usually, though, it just accesses the one that already exists.
+
+        From the session object, you can call the setAttribute method to set any
+        object as an attribute of the current session. To do that, you specify a name for
+        the attribute and the name of the object that you want to store. For instance, the
+        second and third examples show how to store a String object and a Cart object.
+        Here, the Cart object is a business object that stores all of the items for the user’s
+        cart.
+
+        Similarly, you can use the getAttribute method to return any attribute that
+        you've set. To do that, you specify the name of the attribute. Since this method
+        returns an object of the Object type, you need to cast each object to the appropri-
+        ate type as shown by the fourth and fifth examples.
+
+        In chapter 5, you learned how to use the getAttribute and setAttribute meth-
+        ods of the request object. Now, you can see that the getAttribute and setAttribute
+        methods of the session object work similarly. The main difference is the scope
+        of the attributes. When you set an attribute in the request object, the attributes
+        are removed after the request has been completed. However, when you set an
+        attribute in the session object, the attributes are available until the user closes the
+        browser, until the session times out, or until you use the removeAttribute method
+        to remove an attribute from the session object.
+
+            Code that gets a session object
+                HttpSession session = request.getSession();
+
+            Code that sets a String object as an attribute
+                session.setAttribute("productCode", productCode);
+
+            Code that sets a user-defined object as an attribute
+                Cart cart = new Cart(productCode);
+                session.setAttribute("cart", cart);
+
+            Code that gets a String object
+                String productCode = (String) session.getAttribute("productCode");
+
+            Code that gets a user-defined object
+                Cart cart = (Cart) session.getAttribute("cart");
+                if (cart == null) {
+                    cart = new Cart();
+                }
+
+            Code that removes an object
+                session.removeAttribute("productCode");
+
+
+!!!!    A session object is created when a browser makes the first request to a site. It is
+        destroyed when the session ends.
+
+!!!!    A session ends when a specified amount of time elapses without another request or
+        when the user exits the browser.
+
+    How to provide thread-safe access to the session object
+!!!!    In chapter 5, you learned that the servlet container only creates and loads
+        one instance of a servlet. Then, it uses one thread for each request that’s made by
+        a client. Most of the time, that means that there’s only one thread for each client
+        that can access the session object. As a result, it’s almost always thread-safe to
+        access the session object with the getAttribute and setAttribute methods.
+
+!!!     However, it’s possible that the user may access the same servlet from
+        multiple tabs within a browser as shown in figure 7-5. In that case, all tabs within
+        the browser run in different threads that have access to the same session object.
+        As a result, it’s possible (though unlikely) that two threads might try to get or set
+        an attribute in the session object at the same time, which might result in a lost
+        update or another type of problem.
+
+        In addition, HTMLS allows a single web page to have multiple worker
+        threads that make independent HTTP requests. As a result, it’s possible that even
+        a single browser tab could attempt to concurrently modify the session through
+        sloppy front-end programming.
+
+        For many applications, you may not need to make access to the session
+        object thread-safe. Unfortunately, if you do need to make access to the session
+        object thread-safe, you can’t synchronize on the session object like this:
+
+        synchronized (session) {
+            session.setAttribute("cart", cart);
+        }
+
+!!!     The problem with this code is that the servlet specification doesn’t guarantee that
+        it will always return the same session object. As a result, this code is not thread-
+        safe. Instead, you must use the code shown in this figure.
+
+!!      The code in the figure works because the servlet specification does guar-
+        antee that the session ID will always be the same, even if the session object is
+        different. As a result, you can create a lock object based on the session ID and
+        synchronize on that object.
+
+        The intern method is a little known method of the String class that allows
+        you to store a string in a pool of strings. The purpose is to save memory and
+        reduce garbage collection by only storing one object of identical strings in the
+        pool, rather than creating separate objects for each string, even if the strings have
+        identical content. As a result, the first time this code accesses a session ID and
+        calls the intern method on it, the string is stored the string pool. After that, every
+        time this code requests the session ID, it gets the shared string object from the
+        pool instead of a new string object. Because of that, it’s safe to synchronize on
+        the session ID string that’s stored in the pool.
+
+!!!     Unfortunately, this solution is not thread-safe in an environment where
+        multiple application servers are running behind a load balancer. In that case,
+        each server has its own string pool. Fortunately, this type of environment is typi-
+        cally only necessary for websites with large amounts of traffic. As a result, this
+        isn’t an issue for most websites.
+
+            An example that synchronizes access to the session object
+
+                Cart cart;
+                final Object lock = request.getSession().getId().intern();
+                synchronized(lock) {
+                    cart = (Cart) session.getAttribute("cart");
+                }
+
+
+    An introduction to cookies
+        These examples show that a cookie is essentially a name/value pair. For example, the name of the first cookie
+        is jsessionid, and its value is D1F15245171203E8670487F020544490
+        This is a typical value for the cookie that’s generated by the servlet API to keep
+        track of sessions. However, you can create your own cookies to store any type of string data.
+
+        Once you create a cookie, you include it in the server’s response to the
+        browser. Then, the browser stores the cookie on the client machine, and sends
+        it back to the server with all subsequent requests. Remember, though, that some
+        browsers may have disabled cookies, especially persistent cookies. As a result,
+        you can’t always rely on using them.
+
+        Once you have stored a cookie on a browser’s PC, you can use it to make
+        your web application work better for the user. For instance, you can use cookies
+        to verify that users have registered before so they don’t have to register again.
+        You can use them to customize pages that display information that’s specific to
+        the users. And you can use them to focus advertising that is likely to appeal to the users.
+
+!!!!    Browsers generally accept only 20 cookies from each site and 300 cookies total.In addition they can limit
+        the size to 4 kilobytes
+        A cookie can be associated with 1 or more subdomain names.
+
+    Typical uses for cookies
+        - To allow users to skip login and registration forms that gather data like user
+        name, password, address, or credit card data.
+        - To customize pages that display information like weather reports, sports scores, and stock quotations.
+        - To focus advertising like banner ads that target the user’s interests.
+
+    How to Create and use Cookies
+        To create and use cookies, you use the constructors and methods shown
+        in figure 7-7. After you create a Cookie object, you can use its methods to set
+        its parameters and to get its name and value. Then, you can use the addCookie
+        method of the response object to add that cookie to a browser’s PC. And you can
+        use the getCookies method of the request object to get an array of all the cookies
+        on the browser’s PC. These methods are illustrated by the two examples.
+
+        The first example uses four statements to create a cookie and add it to the
+        response object. The first statement creates the Cookie object. The second state-
+        ment calls the setMaxAge method to set the life of the cookie on the browser’s
+        PC to two years (60 seconds times 60 minutes times 24 hours times 365 days
+        times 2 years).
+!!!!    To create a per-session cookie, set the cookies maximum age to -1. Then the cookie is deleted when the
+        user exists the browser.
+
+        The third statement sets the path for the cookie so it’s available
+        to the entire web application. And the fourth statement adds the cookie to the
+        response object so it is returned to the browser and added to the browser’s PC.
+
+        The second example retrieves a cookie from the request object that’s been
+        sent from a browser. Here, the first statement returns an array of Cookie objects
+        from the request object. Then, the following statements loop through the array
+        to return the cookie with a name of “userldCookie”. To do that, these statements
+        use the getName and getValue methods of the Cookie object.
+
+    How to view and delete cookies
+        The first example shows how to display all the cookies that the browser
+        is sending to the current page. To do that, you can write a JSP that uses EL to
+        access the implicit cookie object. This object stores a map of all cookies that
+        the browser is sending to the server. Then, you can use JSTL to loop through
+        each item in the map. Here, the JSTL loop assigns a variable named c for each
+        item. Then, the first value property returns the Cookie object. After that, the
+        name property gets the name of the cookie and the second value property gets its
+        value.
+
+        The second example shows how to delete all the cookies for a browser. To do
+        that, you can write servlet code that uses the getCookies method to get an array
+        of cookies. Then, this code loops through this array and uses the
+!!!     setMaxAge method to set the age of each cookie to zero, which deletes the
+        cookie. To complete the deletion, this code sets each cookie in the response
+        object.
+
+        The third example shows how to display the value of the cookie with the
+        specified name. To do that, you can code EL within a JSP that accesses the
+        implicit cookie object that stores all cookies. Then, you get the cookie you want
+        by specifying its name as the first property, and you get the value that’s stored
+        in the cookie by specifying the value as the second property. In this figure, for
+        instance, the example gets the value of the cookie named emailCookie.
+
+    Four methods for working with cookies
+        As you've already seen, you can use the setPath method to set the path for a
+        cookie. By default, when a browser returns a cookie, it returns it to the directory
+        that originally sent the cookie to the browser and to all subdirectories of that
+        directory. But that’s often not what you want. If, for example, a servlet that’s
+        mapped to the email directory sends a cookie to the browser, then a servlet or
+        JSP that’s available from the download directory won't be able to access the
+        cookie. As a result, it’s common to use the setPath method to set the path for the
+        cookie to a slash (/) so that the entire web application can access the cookie.
+
+        You can use the setDomain method to set the domain for a cookie. By
+        default, when a browser returns a cookie, it returns it only to the exact domain
+        name that originally sent the cookie to the browser. Since that’s usually what you
+        want, you usually don’t need to use this method. But if you have a website that
+        uses server subdomains, you can use this method to return the cookie to all of
+        the subdomains.
+
+        To illustrate, assume that you have a website named www.murach.com that
+        has two subdomains www.java.murach.com and www.cobol.murach.com. Then,
+        if you set the domain to murach.com all three of these domains can access the cookie. In other words, when the
+        browser sends the cookie to one subdomain, it’s possible for the other subdomains to retrieve the cookie.
+
+        You can use the setSecure method to create a secure cookie. By default, a
+        browser returns a cookie across a regular HTTP connection or across a secure,
+        encrypted connection, But if you’re sending sensitive data, you can use this
+        method to specify that the cookie should only be sent across a secure connection.
+
+        You can use the set Version method to set the version of the cookie protocol
+        that you want to use. By default, a cookie uses version 0 of the cookie proto-
+        col. Since this protocol has been around the longest and is the most widely
+        supported, that’s usually what you want. But if there’s a compelling reason to
+        use version | of the cookie protocol, you can use this protocol by specifying an
+        integer value of | for this method.
+
+    How to use URL rewriting to pass parameters
+        You can use URL rewriting to pass parameters to a servlet or JSP. To do that, you
+        add the parameters to the end of the URL.
+
+        The syntax for URL rewriting
+            url?paramNamel=paramValueléamp; paramName2=paramValue2&amp;...
+
+        A link that adds a product code to a URL
+            <a href="cart?productCode=8601">Add To Cart</a>
+
+        A form tag that calls a JSP
+            <form action="cart?productCode=jr01" method="post">
+
+        A link that uses EL for the product code value
+            <a href="cart?productCode=${productCode}">Add To Cart</a>
+
+        A link that includes two parameters
+            <a href="download?action=checkUser&amp; productCode=8601">Download</a>
+
+
+        Two limitations of URL rewriting
+            - Most browsers limit the number of characters that can be passed by a URL to 2,000 characters.
+            - It’s difficult to include spaces and special characters such as the ? and & characters in parameter values.
+
+        Two security risks with URL rewriting
+            - Parameter values can leak to third-party sites such as Google Analytics or Facebook.
+            - Parameter values are stored in the browser history.
+
+    How to use hidden fields to pass parameters
+        In chapter 4, you learned how to code hidden fields within an HTML form.
+        Now, figure 7-12 shows how to use hidden fields to pass a parameter from a
+        browser to the server. In particular, it shows how to pass a parameter named
+        productCode to the servlet that’s mapped to the /cart URL.
+
+        The first example uses hidden fields to accomplish the same task as the
+        first URL rewriting example in the previous figure. However, there are a couple
+!!!     advantages to using hidden fields. First, a hidden field can contain spaces and
+        other special characters that are difficult to work with when using URL rewrit-
+        ing. Second, there is no limit on the number of characters that can be stored in a
+        hidden field. Third, since this example uses the HTTP POST method, it doesn’t
+        display the parameter values in the URL, which removes the security risks mentioned in the previous figure.
+
+        The second example in this figure shows that you can use a JSP expression
+        to assign a value to a hidden field. Here, the form contains a hidden field that
+        contains the product code, a text box for the quantity, and an Update button.
+        However, the value for the hidden field isn’t hard-coded. Instead, a JSP expres-
+        sion retrieves the value for the hidden field. That way, when the user clicks on
+        the Update button, the servlet can tell which product the user wants to update.
+
+        A form tag that uses a hidden text field and a button
+            <form action="cart" method="post">
+                <input type="submit" value="Add To Cart">
+                <input type="hidden" name="productCode" value="8601">
+            </form>
+
+    The download application
+        (nice app that exampliefies a lot of topics discussed so far in the book)
+
+    Summary
+        - It is considered a best practice to use cookies for session tracking.Then the session ID is stored in a cookie
+        on the user's browser.This type of session tracking is done automatically by the servlet API, but it doesn't work
+        unless the browser enables cookies.
+
+
+===============================================================================================================
+Chapter 8 - How to use EL
+
+    An introduction to JSP Expression Language
+        The JSP Expression Language (EL) provides a compact syntax that lets you get
+        data from JavaBeans, maps, arrays, and lists that have been stored as attributes of a
+        web application.
+
+        Code in a JSP that accesses a User object that’s stored in the session object
+            EL
+                <label>Email:</label>
+                <span>${user.email}</span><br>
+                <label>First Name:</label>
+                <span>${user.firstName}</span><br>
+                <label>Last Name:</label>
+                <span>$(user.lastName)</span><br>
+
+            Standard JSP tags
+                <jsp:useBean id="user" scope="session" class="murach.business.User"/>
+                <label>Email:</label>
+                <span><jsp:getProperty name="user" property="email"/></span><br>
+                <label>First Name:</label>
+                <span><jsp:getProperty name="user" property="firstName"/></span><br>
+                <label>Last Name:</label>
+                <span><jsp:getProperty name="user" property="lastName"/></span><br>
+
+        Advantages of EL
+            - EL has a more elegant and compact syntax than standard JSP tags.
+            -EL lets you access nested properties.
+            - EL lets you access collections such as maps, arrays, and lists.
+            - EL does a better job of handling null values.
+            - EL provides more functionality.
+
+        Disadvantages of EL
+            - EL doesn’t create a JavaBean if it doesn’t already exist.
+            - EL doesn’t provide a way to set properties.
+
+    How to use the dot operator to work with java beans and maps
+        Figure 8-2 shows how to use EL to access an attribute of a web application.
+        Whenever you use EL, you begin by coding a dollar sign ($) followed by an
+        opening brace ({) and a closing brace (}). Then, you code the expression within the braces.
+
+        The first example in this figure shows how to retrieve an attribute for a
+        simple object like a String or Date object. Here, the servlet code creates a Date
+        object named currentDate that stores the current date. Then, the servlet code
+        stores this object as an attribute of the request object. Last, the JSP code uses EL
+        to access this attribute, convert it to a string, and display it.
+
+!!!!    Note here that you don’t have to specify the scope when you use EL.
+        Instead, EL automatically searches through all scopes starting with the smallest
+        scope (page scope) and moving towards the largest scope (application scope).
+
+        The second example shows how to display a property of an attribute for a
+        more complex object like a JavaBean or a map. Here, the servlet code creates a
+        JavaBean for the user and stores this bean as an attribute of the session. Then,
+        the JSP code uses EL to access this attribute, and it uses the dot operator to
+        specify the property of the JavaBean that it’s going to display.
+
+        You can use the same technique to work with a map. In that case, though,
+        you code the name of the key after the dot operator to get the associated object
+        that’s stored in the map. You'll see this used in the next figure.
+
+        An example that accesses the currentDate attribute
+        Syntax
+            ${attribute}
+
+        Servlet code
+            Date currentDate = new Date();
+            request.setAttribute("currentDate", currentDate);
+
+        JSP code
+            <p>The current date is ${currentDate}</p>
+
+        An example that accesses the firstName property of the user attribute
+        Syntax
+            ${attribute.property}
+
+        Servlet code
+            User user = new User(firstName, lastName, email);
+            session.setAttribute("user", user);
+
+        JSP code
+            <p>Hello ${user.firstName}</p>
+
+!!!    The sequence of scopes that Java searches to find the attribute
+        Scope      Description
+        page        The bean is stored in the implicit PageContext object.
+        request     The bean is stored in the HttpServletRequest object.
+        session     The bean is stored in the HttpSession object.
+        application The bean is stored in the ServletContext object.
+
+    How to use EL to specify scope
+        - you can specify the scope in cases where there is a naming conflict
+
+        An example that specifies request scope
+            Syntax
+                ${scope.attribute}
+
+            Servlet code
+                Date currentDate = new Date();
+                request.setAttribute("currentDate", currentDate);
+
+            JSP code
+                <p>The current date is ${requestScope.currentDate}</p>
+
+        An example that specifies session scope
+            Syntax
+                ${scope.attribute.property}
+
+            Servlet code
+                User user = new User(firstName, lastName, email);
+                session.setAttribute("user", user);
+
+            JSP code
+                <p>Hello ${sessionScope.user.firstName}</p>
+
+!!!    The implicit EL objects for specifying scope
+            Scope       EL object
+            page        pageScope
+            request     requestScope
+            session     sessionScope
+            application applicationScope
+
+    How to use the [ ] operator to access attributes
+        The first example in figure 8-6 shows how you can use the [ ] operator to
+        access an attribute. To start, the servlet code creates a map named usersMap that
+        contains User objects, and it sets this map as an attribute. Although it isn’t shown
+        by this code, this map uses the email address as a key that can be used to get the
+        associated User object. Then, the servlet code gets an email address from the
+        request object, and it sets this string as an attribute named email.
+
+        Next, the JSP code retrieves the User object associated with the email attri-
+        bute by coding the attribute within the [| ] operator. Since no quotation marks are
+        coded around the attribute, EL attempts to evaluate the attribute. Here, it uses the
+        value stored in the email attribute in the expression. In other words, if the email
+        variable is “jsmith@ gmail.com”, the expression evaluates to:
+            ${usersMap["jsmith@gmail.com"] .firstName}
+        As a result, the User object that’s mapped to “jsmith@gmail.com” is returned,
+        and the first name for this user is displayed.
+
+        Note, however, that EL doesn’t evaluate the variable within the [ ] operator if
+        you code quotation marks around the emailAddress like this:
+            ${usersMap["email"] .firstName}
+        As a result, this expression returns an empty string.
+
+        Syntax
+            ${attribute[lattribute].property}
+
+        Servlet code
+            HashMap<String, User> usersMap = UserlIO.getUsersMap(path);
+            session.setAttribute("usersMap", usersMap);
+
+            String email = request.getParameter("email");
+            session.setAttribute("email", email);
+
+        JSP code
+            <p>First name: ${usersMap[email] .firstName}</p>
+
+        JSP code that returns an empty string
+            <!-- this doesn't work because the attribute is enclosed in quotes -->
+            <p>First name: ${usersMap["email"] .firstName}</p>
+
+    How to work with the other implicit EL objects
+!!!!    If you use the MVC pattern though, you typically won't need to use these implicit objects.
+
+        Some of the other implicit EL objects:
+            param
+            paramValues
+            header
+            headerValues
+            cookie
+            initParam
+            pageContext
+
+
+    How to disable EL
+        (code in the book)
+    How to disable scripting
+        (code in the book)
+
+        It disables scriptlets (<% %>), scriptlet expressions (<%= %>) and scriptlet declarations (<%! %>), which is
+        a way of embedding raw Java code inside a JSP file.
+!!!!    Using scriptlets has indeed been discouraged since the birth of taglibs/EL in favor of better readable and
+        maintainable code.   (this paragraph is taken from StackOverflow)
+
+
+===============================================================================================================
+Chapter 9 - How to use JSTL
+    For most applications you can use JSTL and EL to remove all scripting.
+
+    JSTL = JSP Standard Tag Library provides tags for common tasks that need to be performed in JSPs.
+
+    JSTL libraries
+        If you work with MVC the tags in the core library are are often the only tabs that you will need
+
+        BEFORE you work with these tags, you need to make 2 jars available to the application.
+        Also you need to import/ code  taglib directive
+
+!!!
+Name            Prefix    URI                                   Description
+Core            c         http://java.sun.com/jsp/jstl/core     Contains the core tags for
+                                                                common tasks such as looping
+                                                                and if/else statements.
+Formatting      fmt       http://java.sun.com/jsp/jstl/fmt      Provides tags for formatting
+                                                                numbers, times, and dates so
+                                                                they work correctly with interna-
+                                                                tionalization (i18n).
+SQL             sql       http://java.sun.com/jsp/jstl/sql      Provides tags for working with
+                                                                SQL queries and data sources.
+XML             x         http://java.sun.com/jsp/jstl/xml      Provides tags for manipulating
+                                                                XML documents.
+Functions       fn        http://java.sun.com/jsp/jstl/functions Provides functions that can be
+                                                                 used to manipulate strings.
+
+    How to use the out tag
+!!!!    So far in this book, the code has used EL to output data to the browser.
+        Unfortunately, this approach is vulnerable to a type of attach known as a cross-
+        site scripting (XSS) attach. In a cross-site scripting (XSS) attack, an attacker
+        attempts to inject Javascript into your page to trick your users into sending them
+        personal data such as usernames and passwords.
+
+        To prevent an XSS attack, you can use the out tag to escape the output for
+        your application. This replaces characters such as the left angle bracket (<) and
+        right angle bracket (>) with their corresponding HTML entities. As a result, if
+        an attacker attempts to insert HTML tags, the browser displays them instead of
+        executing them, which is usually what you want. Because of that, it’s generally
+        considered a best practice to escape all output that’s sent to the browser. For
+        instance, the first example in figure 9-3 shows how to use the out tag to escape
+        the output for the second page of the Email List application.
+
+!!!     Although it’s especially important to escape output that’s been entered by a
+        user, it’s also considered a good practice to escape output when it comes from
+        other parts of the HTTP request such as cookies and other headers. That’s why
+        the second example in this figure uses the out tag to escape the names and values
+        of the cookies. If you read the previous chapter, you should understand how you
+        can use EL to access the implicit cookie object. In the next figure, you'll learn
+        more about using the forEach tag to code a loop.
+
+        When you code JSTL tags, you need to be aware that they use XML syntax,
+        not HTML syntax. As a result, you must use the exact capitalization shown in
+        this example for the name of the tag and its attributes. In addition, you must
+        enclose attributes in either double quotes or single quotes. Typically, you can
+        use double quotes. However, if the entire out tag is coded within double quotes,
+        you can use single quotes to differentiate between the nested attribute values as
+        shown in the fourth example.
+
+    The cart application
+        Since the application uses MVC it does not use extensive JSTL tags
+
+
+===============================================================================================================
+Chapter 10 - How to use custom JSP tags
+    For most applications, you can use the EL and JSTL tags that you learned about
+    in the last two chapters to eliminate scripting from your JSPs. Sometimes,
+    however, these tags don’t provide all the functionality that you need.
+
+    In that case, you can use the skills presented in this chapter to create and
+    use custom JSP tags. Because it’s difficult to understand how these tags work
+
+    (did go through these very fast)
+
+===============================================================================================================
+===============================================================================================================
+Section 3 - Essential Database Skills
+
+    For most web applications, the critical data is stored in a database. That’s
+    why the three chapters in this section present the essential database skills
+    that you need for developing web applications,
+
+    In chapter 11, you'll learn how to use MySQL as the database
+    management system for your databases because MySQL is one of the
+    most popular systems for Java web applications, It is also free. That makes
+    it a great product for learning how to develop web applications that use databases.
+
+    In chapter 12, you'll learn how to use JDBC to work with a database.
+    JDBC is an approach that many developers used in the early days of web
+    programming. As a result, you may need to use JDBC to work with legacy web applications.
+
+    In chapter 13, you'll learn how to use JPA to work with a database.
+    JPA is a newer approach that makes it easier to write the database layer for
+    an object-oriented web application. As a result, if you’re developing a new
+    web application, you may want to use JPA.
+
+    JDBC and JPA both work for any database that has a JDBC driver.
+    Since there is a JDBC driver for most databases, the skills presented in
+    chapters 12 and 13 should apply to most databases including MySQL,
+    Oracle, SQL Server, and DB2.
+
+    How to use a MySql DB
+        (went fast through this as this is basic stuff)
+
+    How to use JDBC to work with a DB
+
+    How to connect to a DB
+!!!     Since this code supplies a username of root, this connection has all privi-
+        leges for all databases on the server. For security reasons, it’s considered a best
+        practice to only give a connection the database privileges that the connection
+        needs. That’s why the script that creates the murach database creates a user
+        named murach_user that only has limited privileges for working with the murach
+        database. As a result, the user named murach_user is appropriate for most of the
+        sample applications presented in this chapter.
+
+!!      The first two examples present a new feature of JDBC 4.0 called automatic
+        driver loading. This feature loads the database driver automatically based on the  URL for the database.
+
+        If you’re working with an older version of Java, though, you need to use the
+        forName method of the Class class to explicitly load the driver before you call
+        the getConnection method as shown by the third example. Since this method
+        throws a ClassNotFoundException, you also have to handle this exception.
+
+    The SQL Gateway application
+        This topic presents the SQL Gateway application that allows you to use a
+        web-based interface to execute any type of SQL statement. An application like
+        this makes it easy to view and modify the data in a database. For example, you
+        can cut and paste SQL scripts into this application and execute them. In addition,
+        if you enter an SQL statement with incorrect syntax, this application displays an
+        error message when you try to execute it. Then, you can edit the SQL statement
+        and attempt to execute it again.
+
+        When working with a database, you'll usually want to use an application like
+        this one instead of a command-line interface. If you’re working with a database
+        that’s hosted by an ISP, the ISP usually includes a web-based way to work with
+        the database. If not, you can upload this application to work with the database.
+        However, before you do that, you need to make sure that this application is only
+        available to its intended users. Otherwise, deploying this application to an ISP
+        opens a potentially disastrous security hole.
+
+    How to work with connection pooling
+        Figure 12-11 shows how connection pooling works. To start, when the
+        connection pool is created for the first time, a ConnectionPool object that
+        contains multiple Connection objects is created. Then, when a user accesses a
+        servlet, the servlet spawns a thread. This thread gets a Connection object from
+        the ConnectionPool object, uses that Connection object to access the database,
+        and returns the Connection object to the connection pool.
+
+        Typically, you create a single connection pool for a web application. Then,
+        all of the servlets in the application use the same connection pool to access the
+        database. In the next two figures, you'll learn how to install, customize, and
+        share a connection pool among all of the servlets in an application.
+
+    The email list application
+        (an app that uses a connection pool to write data to DB)
+
+===============================================================================================================
+Chapter 13 - How to use JPA to work with a database
+
+    JPA (Java Persistence API) is an object-relational mapping specification that
+    makes it easier to convert between the business objects and the relational data-
+    base of an application. This is also known as O/R mapping or ORM.
+
+    JPA offers several features that make it easier to use than JDBC. First, JPA
+    can automatically create database tables based on relationships between business
+    objects. Second, JPA can automatically convert between objects and rows in a
+    relational database. Third, JPA can automatically perform joins to satisfy rela-
+    tionships between objects.
+
+    JPA runs on top of JDBC. As a result, it’s compatible with any database that
+    has a JDBC driver.
+
+   How to configure a persistance unit
+
+===============================================================================================================
+===============================================================================================================
+Section 4 - Advanced Servlet and JSP skills
+
+===============================================================================================================
+Chapter 14 - How to use JavaMail to send email
+
+    Three protocols for sending and retrieving email messages
+
+    Protocol        Description
+    SMTP            Simple Mail Transfer Protocol is used to send a message from one mail server to another.
+    POP             Post Office Protocol is used to retrieve messages from a mail server. This protocol
+                    transfers all messages from the mail server to the mail client. Currently, POP is in
+                    version 3 and is known as POP3.
+    IMAP            Internet Message Access Protocol is used by web-based mail services such as
+                    Gmail and Yahoo. This protocol allows a web browser to read messages that are
+                    stored on the mail server. Currently, IMAP is in version 4 and is known as IMAP4.
+
+    (here the tutorial took a detour because for this functionality to work, one needs a SMTP server...and I quickly found
+    online about a service called sendgrid, which I think is owned by twillio...so anyway, for the Java Email to work I am
+    basically using their API..and for that i had to set locally an env variable, that you can see in file sendgrid.env,
+    file that is not under git version control for security reasons. This means that from this mac, as long as I have that
+    env variable, i can send emails with a limit of 100 per day...for testing/demo purposes..)
+
+===============================================================================================================
+Chapter 15 - How to use SSL to work with a secure connection
+
+    If your application requires users to enter sensitive data such as credit card
+    numbers and passwords, you should use a secure connection when you send
+    data between the client and the server. Otherwise, a hacker might be able to
+    intercept and view this data. In this chapter, you’ll learn how to transfer data
+    over a secure connection.
+
+
+    How SSL works
+
+    Figure 15-1 shows a web page that uses SSL to transfer data between the
+    server and the client over a secure connection. To determine if you're transmit-
+    ting data over a secure connection, you can read the URL. If it starts with https
+    rather than http, then you’re transmitting data over a secure connection. In addi-
+    tion, a small lock icon typically appears to the left of the URL.
+
+    With a regular HTTP connection, all data is sent as unencrypted plain text.
+    As a result, if a hacker intercepts this data, it is easy to read. With a secure
+    connection, though, all data is encrypted before it’s transferred between the
+    client and server. Although hackers can still intercept this data, they won't be
+    able to read it unless they can crack the encryption code.
+
+
+    How TLS works
+
+    Transport Layer Security (TLS) is another protocol that’s used for working
+    with secure connections. This protocol is more advanced than SSL, but it works
+    similarly. As a user, it’s hard to tell whether you’re using an SSL connection or a
+!!! TLS connection. Although TLS is only supported by newer browsers, any server
+    that implements TLS also implements SSL. That way, the newer browsers can
+    use TLS, and the older browsers can still use SSL.
+
+    When you're working with secure connections, you'll find that SSL is
+    often used to describe the connection instead of TLS. That’s because SSL is the
+    older, more established protocol for working with secure connections. In this
+    chapter, the term SSL is used even though the connection could also be a TLS
+    connection,
+
+
+!!! How SSL authentication works
+
+    To use SSL to transmit data, the client and the server must provide authen-
+    tication as shown in figure 15-2. That way, both the client and the server can
+    accept or reject the secure connection. Before a secure connection is established,
+    the server uses SSL server authentication to authenticate itself. It does this by
+    providing a digital secure certificate to the browser.
+
+!!! By default, browsers accept digital secure certificates that come from trusted
+    sources. However, if the browser doesn’t recognize the certificate as coming
+    from a trusted source, it displays a warning page like the one shown later in
+    this chapter. Then, the user can decide whether to proceed anyway. To help
+    decide, the user can view the certificate. Although the technique for doing this is
+    different for each browser, the user can typically do this by clicking on the lock
+    icon and using the resulting menu to view the certificate. If the user chooses to
+    proceed, the secure connection is established.
+
+    In some rare cases, a server may want the client to authenticate itself with
+    SSL client authentication. For example, a bank might want to use SSL client
+    authentication to make sure it’s sending sensitive information such as account
+    numbers and balances to the correct person. To implement this type of authen-
+    tication, a digital certificate must be installed on the client, which is usually a browser.
+
+!!! Types of digital secure certificates
+
+        Certificate                 Description
+        Server certificate          Issued to trusted servers so client computers
+                                    can connect to them using secure connections.
+        Client certificate          Issued to trusted clients so server computers
+                                    can confirm their identity.
+
+
+!!! How to get a digital secure certificate
+
+    If you want to establish a secure connection with your clients, you must get a
+    digital secure certificate from a trusted source such as those listed in figure 15-3.
+    These certification authorities (CAs) verify that the person or company request-
+    ing the certificate is a valid person or company by checking with a registration
+    authority (RA). To obtain a digital secure certificate, you'll need to provide an
+    RA with information about yourself or your company. Once the RA approves the
+    request, the CA can issue the digital secure certificate.
+
+    A digital secure certificate from a trusted source is typically not free, and the
+    cost of the certificate depends on a variety of factors such as the level of security.
+    As a result, when you purchase a digital certificate, you want one that fits the
+    needs of your web site. In particular, you'll need to decide what SSL strength
+    you want the connection to support. SSL strength refers to the level of encryp-
+    tion that the secure connection uses when it transmits data.
+
+!!! Once you purchase a secure certificate, you typically send it to your web
+    host who installs it for your site. Once the certificate is installed, you can use
+    SSL to transmit data over a secure connection.
+
+    Some certificate authorities that issue digital secure certificates
+        www.symantec.com/ssl-sem-page
+        www.godaddy.com/ssl
+        www.globalsign.com
+        www.startcom.org
+        www.comodo.com/
+
+
+    How to configure a testing environment for SSL
+
+    If you’re using a commercial web server, you probably won’t need to config-
+    ure the server for SSL. To implement SSL, you just purchase a secure certificate
+    and provide it to the web hosting company. Then, your web hosting company
+    should configure SSL for you.
+
+    However, if you want to be able to test secure connections before you deploy
+    them to your web server, you'll need to configure your testing environment. To
+    do that, you can create and install a self-signed digital secure certificate for free.
+
+    Since a self-signed certificate doesn’t come from a trusted source, it causes
+    the browser to display a warning when you use it. However, it allows you to
+    configure a secure connection for your local testing environment as described in
+    this topic. Although this topic shows how to work with Tomcat 8.0, similar skills
+    apply to other web servers.
+
+
+!!! How to create a certificate for testing
+
+    Figure 15-4 shows how to create a self-signed digital secure certificate for
+    your system. To start, you must create a keystore file. To do that, you can open a
+    Command Prompt (PC) or Terminal (Mac) window and use the cd command to
+    change the current directory to the bin directory of your JDK. Next, you enter
+    the keytool command with the parameters shown in this figure. Then, the keytool
+    program prompts you to enter some passwords and other information.
+
+    When you’re asked for the keystore password, you must enter “changeit”. If
+    you don’t, the certificate won’t work properly. Later, when the keytool program
+    asks for the key password for Tomcat, you should press Enter to use the same
+    password as the keystore password.
+
+    For the rest of the prompts, you can enter any information about yourself
+    and your company that you want. The secure certificate for testing purposes
+    displays this information.
+
+    When you finish responding to the prompts, the keytool program creates a
+    keystore file named
+        .keystore
+    and it stores this file in your home directory. This directory varies depending on
+    your operating system, but you should be able to find the keystore file by search-
+    ing for it.
+
+!!!! The steps to use the keystore differ from server to server...in case of openliberty
+    these are the steps that you need to do :
+        https://openliberty.io/docs/latest/reference/feature/transportSecurity-1.0.html
+
+    How to test a local SSL connection
+
+    Once you've configured your testing environment as described in the last
+    figure, you can test your local SSL connection by starting or restarting Tomcat
+    and entering this URL:
+        https://localhost : 8443
+    Note that this URL begins with https and includes the port number for the SSL
+    connection. Although it’s possible to change the SSL port to another value when
+    you're using a testing environment, you must specify the number of a valid SSL
+    port.
+
+    If the SSL connection works and you're using a temporary testing certificate,
+    most browsers typically display a warning page like the one shown in the next
+    figure. This page indicates that the certificate does not come from a trusted
+    source. At this point, you can usually ignore the warning page and proceed to
+    the requested page.
+
+    Once you establish a secure connection you can use relative URLs to continue using the secure connection
+
+===============================================================================================================
+Chapter 16 - How to restrict access to a web resource
+
+    How container managed security works
+
+        To restrict access to a resource, a security constraint must be coded in
+        the web.xml file for the application. In this figure, for example, the security
+        constraint restricts access to all files in the admin subdirectory of the applica-
+        tion. As a result, when a browser requests any URL in this directory, the server
+        notifies the browser that the user must identify himself or herself. This is known
+        as authentication.
+
+        When the user sends the username and password to the server, the server
+        attempts to authenticate the user. If the user provides a valid username and
+        password, the server checks to see if that username is associated with a role
+        that has the right to access the resource. In this figure, for example, users with
+        the programmer and service roles can access the resource. This is known as
+        authorization.
+
+        To authorize the username and password, the server uses a security realm. A
+        security realm is an interface that provides a flexible way to store the usernames
+        and passwords for the roles that are authorized. This makes it possible for the
+        web developer to store the usernames and passwords for the authorized roles in
+        an XML file, a database, or another type of data store.
+
+        In the example in this figure, the browser has requested a page in the admin
+        subdirectory. Since this subdirectory is restricted, Tomcat has displayed a dialog
+        box that requests a username and password. Then, if Tomcat authorizes the user
+        to view the requested page, that authorization remains in effect for subsequent
+        requests for any of the pages in the admin directory.
+
+
+    Three types of authentication
+
+        Figure 16-2 presents three common types of authentication. Basic authenti-
+        cation causes the browser to display a dialog box like the one in the last figure
+        that requests a username and password. Then, when the user enters a username
+        and password, it sends this data as plain text to the server so the server can
+        attempt to authorize the user. Since you don’t have to code a form for this type
+        of authentication, it is easy to implement. However, you can’t control the appearance of this dialog box.
+
+        Digest authentication also causes the browser to display a dialog box that
+        requests a username and password. However, when the user enters a username
+        and password, digest authentication encrypts the username and password before
+        it sends them to the server. Although this seems to be more secure, it isn’t as
+        secure as using a secure connection as described in chapter 15, and you don’t
+        have as much control over the encryption that’s used. As a result, digest authenti-
+        cation isn’t used as often as the other types of authentication.
+
+    !!! Form-based authentication uses a web form instead of a login dialog box
+        to request the username and password. This type of authentication allows a
+        developer to control the look and feel of the web page. As a result, it’s the most
+        common type of authentication for production websites.
+
+        Since basic authentication and form-based authentication send the username
+        and password as plain text, a hacker can possibly intercept an unencrypted user-
+        name and password and gain access to a restricted web resource. As a result, it’s
+        common to use a secure connection as described in chapter 15 with these types
+        of authentication. That way, the username and password are encrypted before
+        they are sent to the server.
+
+
+    How to restrict access to web resources
+
+        Now that you understand the general concept of how container-managed
+        authentication works, you're ready to learn how to use Tomcat to create a
+        constraint that restricts access to web resources. Although this topic uses Tomcat
+        to create a constraint, these concepts also apply to other servlet containers.
+
+    How to add a security role
+
+        Before you restrict access to a web resource, you often want to add one or
+        more security-role elements to the web.xml file for the application as shown in
+        figure 16-3. These elements define the security roles that are allowed to access
+        restricted web resources. In this figure, two security roles have been added:
+        service and programmer.
+
+    How to add a security constraint
+
+        To restrict access to a web resource, you add a security-constraint element
+        to the web.xml file for the application. This element specifies the web resources
+        that are restricted and the roles that can access them.
+
+        When you code the url-pattern element, you can code a URL that specifies
+        a single file. Or, you can use the asterisk character to restrict access to multiple
+!!!!    files. In this figure, the asterisk restricts access to all URLs in the admin directory.
+        This includes all HTML and JSP files as well as any servlets or other resources that are mapped to
+        this directory.
+
+        When you code the auth-constraint element, you define the user roles that
+        are authorized to access the restricted resource. In this figure, any user associated
+        with the programmer or service role is authorized to access the resources available from the admin directory.
+
+        To restrict access to multiple files or directories, you can define several
+        url-pattern elements within a single security-constraint element. Or, if you want
+        to specify different roles for different URL patterns, you can create multiple
+        security-constraint elements.
+
+!!!!    If you want to restrict access to a resource, but only for specified HTTP
+        methods, you can use the http-method element to do that. For example, you
+        could use this element to restrict access from the HTTP GET and POST meth-
+        ods. However, if you did that, other HTTP methods, such as the HEAD method,
+        don’t require authentication and can be used to access a resource, which isn’t
+        usually what you want. Fortunately, you can easily restrict access to all HTTP
+        methods by omitting the http-method element, which is usually what you want.
+
+!!!!    In most cases, the data that’s stored within a restricted resource should be
+        transported between the client and the server over a secure connection. The
+        easiest way to guarantee this is to include a transport-guarantee element that’s
+        set to a value of CONFIDENTIAL. For this to work, you need to have a secure
+        connection set up as described in the previous chapter.
+
+    How to implement a security realm
+
+        When you use Tomcat to manage security, you need to determine what type
+        of security realm (or just realm) you want to implement.
+        A realm is the mechanism that identifies authorized users. In this topic, you’ll learn how to use three
+        of the most common types of security realms that are available with Tomcat.
+
+    How to implement the UserDatabaseRealm
+
+        By default, Tomcat stores usernames, passwords, and roles in the tomcat-
+        users.xml file that’s in its conf directory. To do that, the server.xml file that’s
+        stored in Tomcat’s conf directory uses the Realm element shown in figure 16-4
+        to specify a UserDatabaseRealm named UserDatabase. Then, the server.xml file
+        uses a Resource element to specify the tomcat-users.xml file as the user data-
+        base. Since these elements are configured by default when you install Tomcat,
+        you don’t need to change them or understand how they work.
+
+        To add a user to the tomcat-users.xml file, you can open this file in a text
+        editor. Then, you can add role elements that specify new roles. Or, you can add
+        user elements that specify the username, password, and roles for each new user.
+        When you do this, you can specify multiple roles for a user by separating them
+        with commas.
+
+        In this figure, for example, the tomcat-users.xml file specifies three roles
+        (manager, programmer, and service) and three users (admin, joel, and andrea).
+        Of these users, andrea belongs to two roles (programmer and server). Then, to
+        put these users into effect, you need to restart Tomcat.
+
+!!!!    When you edit the tomcat-users.xml file, the changes apply to all applica-
+        tions running on the current server. As a result, you don’t want to remove any
+        roles or users unless you’re sure they’re not being used by other applications. For
+        example, the Tomcat Web Application Manager application that’s included with
+        Tomcat uses the admin username and the manager role.
+
+    How to implement the JDBCRealm
+
+        For simple applications, the UserDatabaseRealm provides a quick and easy
+!!      way to implement a realm. However, for more serious web applications, you'll
+        often want to use the JDBCRealm to store usernames, passwords, and roles in a
+        relational database. In addition, you’ll often want to implement a security realm
+        for a specific application rather than for all applications on the current server.
+
+        To implement security for a specific application, you can add a Realm
+        element to the application’s context.xml file. In figure 16-5, for example, the
+        context.xml file for the chl6admin application implements the JDBCRealm.
+        Here, the JDBCRealm uses the Connector/J MySQL driver to connect to a
+        MySQL database named murach with a username of root and a password of
+        sesame.
+
+        The rest of the attributes in the Realm element for the JDBCRealm define
+        the names of the tables and columns that are used to store the usernames,
+        passwords, and roles for the application. These tables can be created and filled
+        by using a SQL script like the one in part 2 of this figure.
+
+    How to implement the DataSourceRealm
+
+        If your application is using connection pooling as described in chapter 12,
+        you probably want to implement the DataSourceRealm as shown in figure 16-6.
+        This realm is similar to the JDBCRealm.
+
+        Compared to the JDOBCRealm, though, there are two advantages to using
+        the DataSourceRealm. First, this realm can take advantage of connection pool-
+        ing, which can allow your application to authenticate and authorize users more
+        quickly.
+
+        Second, if you’ve already specified the database connection information for
+        your application in a Resource element, you don’t need to duplicate this infor-
+        mation in the Realm element. Instead, you can code a Realm element that uses
+        the dataSourceName and localDataSource attributes to use the same connection
+        information as the Resource element. In this figure, for example, the Resource
+        element specifies all the connection information that’s needed to connect to the
+        music database that’s used by the Music Store application presented in section 5,
+
+        After you code the Realm attributes to connect to a data source, you code
+        the rest of the attributes just as you would for a JDBCRealm. In this figure,
+        for example, the Realm element uses the same tables and columns as the
+        JDBCRealm shown in the previous figure.
+
+    How to use basic authentication
+
+        Figure 16-7 shows how to use basic authentication to provide access to a
+        restricted resource. In particular, it shows how to use basic authentication to
+        provide access to the sample application for this chapter.
+
+        If you request a restricted web resource that uses basic authentication, your
+        browser displays an authentication dialog box like the one in this figure. This
+        box requests a username and password. Then, when the user selects the Log In
+        button, the username and password are sent to the server.
+
+        When the server gets the username and password, it checks the security
+        realm to see whether the username and password are valid, and it checks whether
+        the user is associated with a role that is authorized to access the resource. If so,
+        the user is allowed to access the resource.
+
+        Since basic authentication is the simplest type of authentication, the
+        web.xml file only requires a few XML elements. To start, you code the
+        login-config element. Within this element, you specify that you want to use basic
+        authentication. Then, you specify a name for the realm. This name is displayed
+        in the dialog box. When you add the XML tags for the login-config element to
+        the web.xml file, they must immediately follow the security-constraint element
+        that they relate to as shown in figure 16-1.
+
+    How to use form-based authentication
+
+        Form-based authentication works similarly to basic authentication, but it
+        lets you code an HTML or JSP file that gets the username and password. When
+        you use form-based authentication, requesting a restricted resource causes your
+        browser to display a web page that contains a form like the one in figure 16-8.
+        This form contains a text box for a username, a text box for a password, and a
+        submit button. Then, when the user clicks the submit button, the username and
+        password are sent to the server.
+
+        This figure also shows how to code the form-login-config element for
+        form-based authentication. Within this element, you use the auth-method
+        element to specify that you want to use form-based authentication. Then, you
+        can specify the name of the HTML or JSP file that defines the authentication
+        form, and you can specify the name of the HTML or JSP file to display if the
+        user enters an invalid username or password. If you want the same login page to
+        be displayed again when a user enters an invalid username or password, you can
+        specify the same name for both pages.
+
+    The web.xml elements that specify form-based authentication
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/admin/login.html</form-login-page>
+            <form-error-page>/admin/login_error.html</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    Part 2 of figure 16-8 shows the code for the login page that’s shown in part
+    1, Although you can place any HTML or JSP tags in a login page, this page must
+    at least provide an HTML form that contains a submit button and two text boxes,
+    and this form must use the three highlighted attributes shown in this figure. Here,
+    the action attribute for the form must be j_security_check. The name of the text
+    box that gets the username must be j_username. And the name of the text box
+    that gets the password must be j_password.
+
+    In this example, the text box that requests the password uses the password
+    type. As a result, the password isn’t displayed on the screen when the user types
+    it. Instead, this text box displays a special character such as a bullet or an aster-
+    isk for each character. You can see how this works by looking at part | of this
+    figure.
+
+===============================================================================================================
+Chapter 17 - More security skills
+    Identity theft as a result of IT security flaws is a serious problem, as many
+    high-profile news stories have shown. So protecting the identity and confidenti-
+    ality of your users is one of the most important parts of web application devel-
+    opment. Although you've learned several skills already for securing your web
+    application, this chapter will teach you additional important skills that didn’t fit
+    well in other sections of this book.
+
+    Common website security attacks
+
+        Cross-site scripting (XSS) attacks allow an attacker to inject Javascript into your
+        page in an attempt to trick your users into sending them personal data such as
+        usernames and passwords.
+
+        SQL injection attacks allow an attacker to run malicious SQL code on your data-
+        base. This can allow them to perform various actions including gaining access to
+        user credentials and personal information, bypassing authentication mechanisms,
+        and modifying or destroying data.
+
+        In a social engineering attack, an attacker tricks someone into revealing their
+        username and password, often by posing as an IT employee of the company.
+
+        Out of date or unpatched software running on your server can allow an attacker to
+        exploit security vulnerabilities to gain unauthorized access to your data.
+
+    An introduction to cryptography
+        Computer cryptography is significantly more complex than these simple
+        substitution cyphers. However, the basic goal is the same: To take readable data
+        and change it so that it is no longer readable. There are two types of
+        cryptography commonly used in IT security.
+
+!!!     The first is one-way hashing. In this type of cryptography, you pass a
+        message through an algorithm that produces a scrambled version of it. With this
+        type of encryption, it isn’t possible to recover the original message from the
+        scrambled version. In other words, you can’t reverse the encryption. As a result,
+        one-way hashing is useful for things like storing passwords in a database. In
+        this case, you never need to reverse the encrypted password as long as the users
+        know their passwords. When a user logs in you hash the password and make sure
+        it matches the hash of the password in the database. If it does, the password is
+        correct.
+
+        Because it isn’t possible to reverse a one-way hash, it isn’t possible to find
+        out what a user’s password is. If a user forgets his password, you can reset it to
+        a new one. Also, because the hash cannot be reversed, this type of cryptography
+        is not useful for tasks such as emailing a document to someone that they need
+        to read. For those types of tasks, you need to use a second type of encryption,
+        reversible encryption.
+
+!!!     Reversible encryption, as the name implies, is encryption that can be
+        reversed. To make this possible, the data is encrypted using a key. In the simplest
+        forms of this encryption, you use one key to encrypt the data, and anyone who
+        also has that key can decrypt the data. This type of encryption is useful for tasks
+        such as storing secure data in a database and transferring secure data over the
+        Internet.
+
+    How to salt passwords
+        Hashing the passwords in your database is a good first step to preventing
+        attackers from being able to use them should they gain access to the passwords.
+        However, it doesn’t always go far enough because even hashed passwords are
+        vulnerable to a rainbow table attack. Furthermore, if two users are using the
+        same password, they will hash to the same value. As a result, if an attacker can
+        crack one user password, he can access more than one user account.
+
+        To prevent rainbow attacks, you can use a technique called salting. To salt
+        a password, you generate a random string of characters when the password is
+        created. Then, you append that to the end of the password before hashing it.
+
+        The hash of the password plus the salt is what you store as the password in the
+        database. You also store the salt value in the database because you will need it
+        later when the user attempts to login to their account. When they do, you take
+        the password the user entered, and append the salt from the database row for that
+        user account. Then, you hash the password plus the salt value, and compare the
+        hash to the hash stored in the database.
+
+        This technique makes sure that rainbow table attacks won’t work because
+        even weak passwords will hash to an entirely different value thanks to the salt.
+        Furthermore, because the password is combined with the salt value before creat-
+        ing the hash, two users that have the same password will not have the same hash
+        value because their salts will be different. This prevents attackers from discover-
+        ing that two or more users are using the same password.
+
+
+!!!!One important topic this book did not Cover is database encryption, which
+    is a good idea if you are storing any sensitive data in your database such as
+    customer credit card numbers, or information that could allow an attacker to
+    steal a user’s identity.
+
+    Unfortunately, MySQL doesn’t provide an easy way to transparently
+    encrypt databases and requires special programming techniques in your appli-
+    cation to do so. If you need to encrypt sensitive data, we suggest one of two
+    options.
+
+!!! The first is to use a database that does offer transparent database encryp-
+    tion. Most commercial databases do this, as does the open source database PostgreSQL.
+
+!!  The second option is to encrypt the hard disk the database is stored on.
+    Many operating systems have built in hard disk encryption software. There
+    are also several third party solutions available for this. In addition, some hard
+    disk controllers support encryption at the hardware level. To see if yours does,
+    you can consult the documentation that came with your server, or contact your
+    server provider.
+
+===============================================================================================================
+Chapter 18 - How to work with HTTP requests and responses
+
+    When you write servlets and JSPs, the classes and methods of the servlet API
+    shelter you from having to work directly with HTTP. Sometimes, though, you
+    need to know more about HTTP requests and responses, and you need to use
+    the methods of the servlet API to work with them. So that’s what you'll learn in
+    this chapter. Along the way, you'll get a better idea of how HTTP works.
+
+    An HTTP request and response
+        Hypertext Transfer Protocol (HTTP) is the primary protocol that’s used to transfer
+        data between a browser and a server. Three versions of HTTP exist: 1.0, 1.1., and
+        1.2. Of these, HTTP 1.1 is the most commonly used.
+
+        The first line of an HTTP request is known as the request line. This line specifies
+        the request method, the URL of the request, and the version of HTTP.
+
+        After the first line of a request, the browser sends request headers that give infor-
+        mation about the browser and its request.
+
+        The first line of an HTTP response is known as the status line. This line specifies
+        the HTTP version, a status code, and a brief description associated with the status
+        code.
+
+        After the first line of a response, the server sends response headers that give infor-
+        mation about the response. Then, it sends the response entity, or response body.
+        The body of a response is typically HTML, but it can also be other types of data.
+
+!!! Common MIME types
+        Figure 18-2 shows some of the most common Multipurpose Internet Mail
+        Extension (MIME) types that are used by HTTP. You can use them in the accept
+        header of a request or the content-type header of a response.
+
+        To specify a MIME type, you can use this format:
+            type/subtype
+
+        Although the “text/plain” MIME type is the default MIME type for a servlet,
+        the most commonly used MIME type is the “text/html” type. Later in this chap-
+        ter, you'll learn how to use a few MIME types in HTTP requests and responses.
+
+    Common HTTP request headers
+
+    Name            Description
+    accept          Specifies the preferred order of MIME types that the browser can accept.
+                    The “*/*” type indicates that the browser can handle any MIME type.
+    accept-charset  Specifies the character sets that the browser can accept.
+    accept-encoding Specifies the types of compression encoding that the browser can accept.
+    accept-language Specifies the standard language codes for the languages that the browser
+                    prefers. The standard language code for English is “en” or “en-us”.
+    authorization   Identifies the authorization level for the browser. When you use container managed
+                    security as described in chapter 16, the servlet container automatically sets this header.
+    connection      Indicates the type of connection that’s being used by the browser. In
+                    HTTP 1.0, a value of “keep-alive” means that the browser can use a
+                    persistent connection that allows it to accept multiple files with a single
+                    connection. In HTTP 1.1, this type of connection is the default.
+    cookie          Specifies any cookies that were previously sent by the current server. In
+                    chapter 7, you learned how to use the servlet API to work with this header.
+    host            Specifies the host and port of the machine that originally sent the request.
+                    This header is optional in HTTP 1.0 and required in HTTP 1.1.
+    pragma          A value of “no-cache” indicates to browsers, proxy servers, and gateways
+                    that this document should not be cached.
+    referer         Indicates the URL of the referring web page. The spelling error was made
+                    by one of the original authors of HTTP and is now part of the protocol.
+    user-agent      Indicates the type of browser. Although most browsers identify them-
+                    selves as “Mozilla”, the name of the browser is usually included some-
+                    where in the string.
+
+    Status code summary
+    Number      Type            Description
+    100-199     Informational   The request was received and is being processed.
+    200-299     Success         The request was successful.
+    300-399     Redirection     Further action must be taken to fulfill the request.
+    400-499     Client errors   The client has made a request that contains an error.
+    500-599    Server errors   The server has encountered an error.
+
+    Status codes
+
+    Number      Name                        Description
+    200         OK                          The default status indicating that the response is normal.
+    301         Moved Permanently           The requested resource has been permanently moved to a new URL.
+    302         Found                       The requested resource resides temporarily under a new URL.
+    400         Bad Request                 The request could not be understood by the server due to bad syntax.
+    401         Unauthorized                The request requires authentication. The response must
+                                            include a www-authenticate header. If you use con-
+                                            tainer-managed security as described in chapter 16, the
+                                            web server automatically returns this status code when appropriate.
+    403         Forbidden                   Access to the requested resource has been denied. This
+                                            is commonly caused by misconfigured file permissions
+                                            such that the server does not have permission to access the requested document.
+    404         Not Found                   The server could not find the requested URL.
+    405         Method Not Allowed          The method specified in the request line is not allowed for the requested URL.
+    414         Request-URI Too Long        This is typically caused by trying to pass too much data
+                                            in a GET request. It can usually be resolved by convert-
+                                            ing the GET request to a POST request.
+    418         I'm a teapot                The request was denied because the browser attempted
+                                            to brew coffee using a teapot. Don’t believe us? You can
+                                            read about it in RFC-2324,
+    500         Internal Server Error       The server encountered an unexpected condition that
+                                            prevented it from fulfilling the request.
+
+    Common HTTP response headers
+
+    Name                    Description
+    cache-control           Controls when and how a browser caches a page.
+    content-disposition     Can be used to specify that the response includes an attached binary file. For an example,
+                            see figure 18-9 and 18-11.
+    content-length          Specifies the length of the body of the response in bytes. This allows the browser to know when
+                            it’s done reading the entire response and is necessary for the browser to use a
+                            persistent, keep-alive connection.
+    content-type            Specifies the MIME type of the response document. You can use the “maintype/subtype” format
+                            shown earlier in this chapter to specify the MIME type.
+    content-encoding        Specifies the type of encoding that the response uses. Encoding a document with compression
+                            such as GZIP can enhance performance. For an example, see figure 18-10.
+    expires                 Specifies the time that the page should no longer be cached.
+    last-modified           Specifies the time when the document was last modified.
+    location                Works with status codes in the 300s to specify the new location of the document.
+    pragma                  Turns off caching for older browsers when it is set to a value of “no-cache”.
+    refresh                 Specifies the number of seconds before the browser should ask for an updated page.
+    www-authenticate        Works with the 401 (Unauthorized) status code to specify the authentication type and realm.
+                            If you use container  managed security as described in chapter 16, the servlet
+                            container automatically sets this header when necessary.
+
+    How to compress a response with GZip
+        Since most modern browsers support compression, it usually makes sense to
+        compress any large responses that are returned by your web server. Fortunately,
+        most web servers can handle this automatically. For example, if you’re using
+        Tomeat as your web server, you can open Tomeat’s server.xml file and add a
+        compression attribute to the Connector element to control how Tomcat handles
+        compression. In part 2 of figure 18-9, for instance, the Connector element
+
+===============================================================================================================
+Chapter 19 - How to work with listeners
+
+    Starting with the servlet 2.3 specification, you can add a listener to a web
+    application. For example, you can create a listener class that contains code
+    that’s executed when your web application starts. Or, you can create a listener
+    class that contains code that’s executed every time a user starts a new session.
+    In this chapter, you'll learn how to use listeners.
+
+!!! How to use a ServietContextListener
+
+        A listener is a class that listens for various events that can occur during
+        the lifecycle of a web application and provides methods that are executed
+        when those events occur. For instance, you can use a ServletContextListener to
+        determine when an application is started, and you can use its contextInitialized
+        method to initialize one or more global variables when that event occurs. This
+        lets you initialize the global variables before the first JSP or servlet of an appli-
+        cation is requested.
+
+        Because this is a common use of a listener, this chapter is going to use a
+        ServietContextListener as its only example. That, however, should give you a
+        good background for using any of the other listeners.
+
+
+!!! How to code a class for the listener
 
         To code a listener, you must implement one of the listener interfaces in the javax.servlet and javax.servlet.http
         packages.
 
+        The contextInitialized method contains the code that’s executed right after
+        the application starts. In the method in this figure, the first statement calls the
+        getServletContext method from the event parameter to return the ServletContext
+        object. Note that a listener class doesn’t extend the HttpServlet class so it
+        isn’t a servlet. As a result, you can’t call the getServletContext method of the
+        HttpServlet class directly from the listener class. Instead, you must call this
+        method from the event parameter.
+
+!!      After getting the context object, the rest of the statements in this method
+        initialize global variables and set them as attributes of the ServletContext object.
+        As a result, these attributes are available to all of the JSPs and servlets for the
+        application. Here, the code gets the customer service email address from the
+        application’s web.xml file. Then, it gets an int value for the current year. Next,
+        it gets the path for the text file named products.txt that’s stored in the WEB-INF
+        directory. Finally, this code uses this path and the ProductsIO class to create an
+        ArrayList of Product objects from the values that are stored in the text file.
+
+!!!     In contrast, the contextDestroyed method is used for the code that’s executed
+        when the application stops and destroys the ServletContext object. This method
+        typically contains cleanup code that frees any resources such as database
+        connections that are used by the contextInitialized method. In this figure, though,
+        the contextInititalized method doesn’t use any resources that need to be cleaned
+        up. As a result, this method doesn’t contain any code.
+
+    How to register the listener
+
+        After you code the class for a listener, you must register the listener with the
+        web application. To do that, you must add a listener element to the application’s
+        web.xml file as shown in part 2 of figure 19-1. Here, the shaded code contains
+        the listener element. Within the listener element, the listener-class element
+        specifies the fully qualified name of the class. In this case, it specifies the
+        CartContextListener class in the murach.util package, which is the class that’s
+        shown in part | of this figure.
+
+    A summary of other listener interfaces
+
+        Figure 19-2 summarizes the eight listener interfaces. Of these interfaces,
+        the ServletContext and ServletRequest interfaces are stored in the javax.servlet
+        package, and the HttpSession interfaces are stored in the javax.servlet.http pack-
+!!!!   age. If you review the descriptions of these interfaces, you'll see that they let you
+        listen for a variety of events that occur on the ServletContext, HttpSession, and
+        ServletRequest objects. In other words, they let you listen for events that occur at
+        application, session, or request scope.
+
+        For example, the HttpSessionListener works like the ServletContextListener.
+        However, it lets you write code that’s executed when a new session is created
+        or destroyed. Typically, a session is destroyed when the user hasn’t requested a
+        URL from the web application within 30 minutes, but that time is determined by
+        the web.xml file for the application.
+
+        As this figure shows, other listeners let you respond to events that occur
+        when an attribute is added to, removed from, or replaced in the ServletContext,
+        session, or request objects. You can also respond to events that occur when an
+        object is bound or unbound from a session or when a session is activated or
+        deactivated. For most web applications, though, the only listener that you’re
+        likely to use is the ServletContextListener.
 
 ===============================================================================================================
 Chapter 20 - How to work with filters
@@ -445,7 +2480,465 @@ Chapter 20 - How to work with filters
         from web.xml. The filter obtains the ip address from the request and returns 404 and logs a message if the
         ip is not in the configured list..)
 
+===============================================================================================================
+Chapter 21 - How to work with Java Server Faces
+    You can use JSF (JavaServer Faces) instead of JSP for developing your web
+    pages. Unlike JSP, JSF is a component-based framework, which means that you
+    can develop web applications more like desktop applications, using pre-made
+    user interface components.
 
+    Since JSF is a large and complex topic, this book only provides an
+    introduction to it. However, this chapter presents the skills you need to get
+    started with JSF. After that, you should have a good foundation for learning
+    more about JSF.
+
+!!! JSF (JavaServer Faces) was designed as a replacement for JSP, which is
+    an older technology. With JSF, you design your web pages using components.
+    This makes designing web pages more like designing desktop applications and
+    introduces powerful new features. For example, JSF allows you to add complex
+    pre-made functionality to your web pages with a single line of JSF code, without
+    having to write any JavaScript.
+
+    A summary of JSF versions
+!!      JSF is a specification for how view components interact with controller and
+        model components on the server. Several vendors provide implementations of
+        the core JSF specification. Figure 21-1 lists two: (1) the official JSF 2 reference
+        implementation from Oracle (called Mojarra) and (2) Apache MyFaces. These
+        implementations only provide core functionality that replaces standard HTML
+        elements such as form controls.
+
+!!      However, third-party component libraries can greatly extend the power of
+        JSF. This figure lists two of the most popular third-party component libraries:
+        JBoss RichFaces and PrimeFaces. Both of these component libraries provide
+        advanced controls that you can add to your web pages using only a few lines of
+        JSF code. For example, both libraries provide a calendar control that you can
+        add with a single line of code and without having to write any JavaScript event
+        handlers.
+
+!!!     Other advanced controls provided by both libraries are auto-complete boxes,
+        drag-and-drop functionality, menus, and editable tables with sortable and resiz-
+        able columns. These advanced components are beyond the scope of this chapter.
+        However, both RichFaces and PrimeFaces have demos at their websites that
+        show how these components work as well as code examples that show how easy
+        it is to implement them.
+
+    A summary of JSF providers
+
+        JSF is a specification that’s implemented by JSF providers such as Oracle and the
+        Apache Software Foundation.
+
+!!!     Third-party component libraries can add significant functionality to the core JSF
+        components. For example, these libraries can include menus, collapsible panels,
+        calendars, auto-complete boxes, and drag-and-drop functionality.
+        Two of the most popular third-party component libraries are JBoss RichFaces and
+        PrimeFaces.
+
+!!!     PrimeFaces is built on top of the popular jQuery library. As a result, it can use
+        jQuery components and themes. However, it shields the developer from having to
+        work directly with jQuery or JavaScript.
+
+!!!!! https://www.primefaces.org/gettingstarted/
+        This library extends the implementations of JSF with more UI elements and capabilities..
+
+    How to used managed beans
+        A managed bean, also known as a backing bean, is the server-side model
+        and controller that supports a JSF component.
+
+    How to create a managed bean
+
+!!!     Figure 21-2 shows a simple managed bean. To declare that a bean is
+        managed, you code a @ManagedBean annotation above the class name. A
+        managed bean is simply a plain old Java object (POJO). The only requirement is that it must have a default constructor.
+            (Dan : this annotation is deprecated...i think I found a replacement for it..)
+            https://stackoverflow.com/questions/38040947/the-type-managedbean-is-deprecated
+
+        This class also uses instance variables. In most cases, this is thread safe in
+        JSF since each request or active session has its own copy of the managed bean.
+        There is one exception to this that’s shown later in this chapter.
+
+        To perform any initialization on the object, you code a method annotated
+        with @PostConstruct. In this figure, for example, the init method creates a new
+        User object and sets the message field.
+
+!!!     You might wonder why you couldn’t just put this in the constructor instead
+        of use a post construct method. The reason is because the post construct method
+        is guaranteed to run after any dependency injection has been done. The
+        constructor, on the other hand, runs before any dependency injection has been
+        done.
+
+        In this case, it doesn’t matter, because this class doesn’t do any dependency
+        injection, But in a Java EE server, you might want to inject a database access
+        service, for example. In that case, if you attempted to use the database access
+        service in the constructor, you would get a null pointer exception because it
+        hadn’t been injected yet. But if you use the database access service in the post
+        construct method, the database service is guaranteed to have been injected
+        already.
+
+        Dependency injection is beyond the scope of this book as it is an advanced
+        Java EE topic. For now, you only need to understand that it is always safe to put
+        initialization code inside a post construct method. However, it is not always safe
+        to put initialization code inside the constructor.
+
+    How to set the scope of a bean
+
+        The scope of a managed bean determines what part of the application the
+        bean is available to, and when it is available. The highlighted code in figure 21-3
+        shows how to use an annotation to set the scope of a bean.
+
+        A request scoped bean is created when an HTTP request is made and is
+        available for the duration of that request. When the request is complete, the bean
+        goes out of scope and is eligible for garbage collection, freeing up the memory
+        that it uses. This is the default scope if you don’t specify a scope. As a result, the
+        @RequestScoped annotation is optional. Also, since a request scoped bean is
+        bound to an individual HTTP request, it is thread-safe to use instance variables
+        in it.
+
+        A session scoped bean is bound to a user session. Because of that, it’s useful
+        for storing things like the list of items in a shopping cart or a list of user prefer-
+        ences for a site. Basically, if you would store data in a session object when using
+        JSP or servlets, you would store it in a session scoped bean when using JSF.
+
+!!!     As with request scoped beans, it’s thread-safe to use instance variables in
+        session scoped beans. That's because each user session gets their own copy of
+        the bean. As a result, if user | changes the value of the message, user 2 doesn’t
+        see that change. This would not be the case if you used instance variables in a
+        servlet.
+
+!!!     Session scoped beans can end up consuming a lot of memory, so you should
+        use them sparingly. For example, you should only create them when you need
+        them. In addition, you should avoid creating multiple session beans for each user
+        whenever possible.
+
+        Application scoped beans are seen by the entire web application. As a result,
+        they are useful for storing properties that need to be available to all JSF compo-
+        nents. For example, you might use an application scoped bean to store a list of sales tax rates.
+
+!!!     Because they are seen by the entire application, application scoped beans are
+        not thread-safe. That means you need to make sure that access to any instance
+        variables in an application scoped bean is synchronized. Furthermore, because
+        they are seen by the entire application, you usually don’t want to allow data
+        that’s entered by users to make any changes to an application scoped bean.
+        Unless, of course, you really do want a change made by a user to be seen by the
+        entire application, and thus by every other user that requests the page.
+
+!!!     View scoped beans were added in JSF 2 to address the memory usage
+        concerns with session scoped beans. You can use a view scope when you need a
+        bean to be available for multiple requests to the same view, but not to an entire
+        session. An example of where you might use a view scoped bean is an online
+        form that needs to be submitted in multiple parts. With a view scoped bean, you
+        won't lose the data entered from previous requests, but you don’t need to create
+        a session bean that will still exist and use memory even after the user is done
+        with the form.
+
+    How to display data from a managed bean
+        Figure 21-5 shows how you display data contained in a managed bean. Here,
+        the first example shows a request scoped managed bean with one string field that
+        contains a message. To allow access to the message, you need to code a getter for its field.
+
+        Because this is a request scoped bean, JSF creates the bean the first time you
+        request it in the JSF page. Once the request is finished, it’s marked for garbage
+        collection.
+
+        To access the value in the JSF page, you supply the class name of the
+        managed bean, starting with a lowercase letter, followed by a dot operator, and
+        the name of the field you want to access. In this figure, the second example
+        displays the value that’s stored in the message field.
+
+!!!!    By default, any embedded HTML tags in the data are escaped. As a result,
+        the second example causes the browser to display “<h1>Hello, world!</h1>"
+        on the JSF page instead of causing the browser to display “Hello, world!” with
+        formatting for the h1 element.
+
+        You can nest the path to the field you want to access as deep as necessary.
+
+        In this figure, the third example accesses the firstName field of the User object
+        that’s available from the EmailList class that was presented earlier in this
+        chapter. For this to work, of course, all of the fields must have appropriate get
+        methods. In other words, the EmailList class must have a getUser method that
+        returns a User object, and the User object must have a getFirstName method that
+        returns the first name of the user.
+
+!!!     If you don’t want the HTML tags escaped, you can code a statement using
+        the outputText tag as shown in the fourth example. Here, the escape attribute
+        prevents JSF from escaping the opening and closing h1 tags. As a result, this
+        statement causes the browser to display “Hello, world!” with formatting for the h1 element.
+
+!!!     Using code like the code in the fourth example can make your site vulner-
+        able to a certain type of attack known as a cross-site scripting (XSS) attack. This
+        occurs anytime you aren’t sure where the data you want to display came from. In
+        that case, it’s possible for an attacker to enter malicious HTML and JavaScript
+        code in a form field that executes later on a user’s browser. For more information
+        about XSS attacks, see chapter 17.
+
+        To guard against XSS attacks, you should not set the escape attribute to
+        “false” unless you are sure that it’s safe for the browser to interpret any HTML
+        or JavaScript that’s embedded in the data.
+
+    How to code the inputText tag
+        Of course, displaying data isn’t particularly useful if you don’t have a way to
+        get data from the user. Fortunately, JSF makes this almost as easy as displaying data.
+
+        Figure 21-6 shows how to use the inputText tag to get data from the user. To
+        do this, the first example adds a setMessage method to the MessageBean class.
+        This provides a way to set the message field.
+
+        Inside the JSF page, you access this field the same way you access it when
+        displaying the data. First, you provide the name of the class, followed by a
+        period, and then the name of the field you want to set. As with displaying text,
+        you can nest fields as deeply as necessary.
+
+        The inputText tag can take several attributes, but this example uses only two.
+        The first is the id attribute. This attribute sets the id of the text box in the DOM,
+        just as it does in HTML. As a result, you can use the id to select this element in CSS or JavaScript.
+
+        The second attribute is the value attribute. You can use this attribute to
+        specify the field in the managed bean that corresponds with this text box. If the
+        field in the managed bean already contains a value, this displays the field’s value
+        inside the text box.
+
+        When the inputText tag is displayed in the browser, it displays the value
+        that’s stored in the managed bean. However, the user can edit that value. In
+        this figure, for example, you could edit the message to change it from “Hello,
+        world!” to “Hello, Mike!”.
+
+        There are several other text components in the core JSF library. This figure
+        lists two. First, you can use the inputSecret tag to create a password box where
+        the text entered by the user isn’t displayed. Second, you can use the
+        inputHidden field to create a hidden form field. Both of these components work
+        like the inputText component, so you shouldn’t have any trouble using them
+        when you need them.
+
+    How to validate data
+        Figure 21-8 shows how to code a form action. Here, the first and second
+        examples show how to submit a form to the server for processing, and the third
+        example shows how to redirect to another page.
+
+        To submit a form to the server for processing, you add a method to your
+        managed bean that processes the data and then returns a string that indicates the
+        name of the JSF file to display after the processing has completed. In this figure,
+        for example, the addToEmailList method has been added to the EmailList bean.
+
+!!!     The addToEmailList method begins by calling a method of the database
+        class to check whether the email address supplied by the user already exists
+        in the database. If so, this code sets the text of the message field to an error
+        message and redisplays the index.xhtml page. This gives the user a chance to
+        enter a different email address. Otherwise, the code calls a method of the data-
+        base class to insert the user’s data into the database and displays the
+        thanks.xhtml page.
+
+        In a JSF page, you can call the addToEmailList method by coding a
+        commandButton tag like the one shown in the second example. Here, the action
+        attribute specifies the name of the bean and the name of the method. Then, the
+        value attribute specifies the text that’s displayed on the button.
+
+!!      Before the addToEmailList method is called, any validators that were
+        included in the JSF page are run. If any of them fails, the method isn’t called.
+        Instead, the user is redirected back to the form and the validator’s error message
+        is displayed,
+
+        Sometimes, instead of processing data on the server, you might want to
+        redirect a user to a different page. For example, you might want to include a
+        button on a form that allows a user to return to the home page of the site without
+        submitting the form. To do that, you can code a commandButton tag like the one
+        in the third example. Here, the first part of the action attribute specifies the name
+        of the JSF page without the .xhtml extension. Then, the part following the ques-
+        tion mark tells JSF that it should redirect to the index page instead of forwarding
+        to it.
+
+===============================================================================================================
+===============================================================================================================
+Section 5 - The music store website
+
+!!!!One of the best ways to improve your web programming skills is to study
+    websites and applications that have been developed by others. That's
+    why you can download a Music Store website from www.murach.com.
+    And that’s why this section presents some of the key components of that
+    website.
+
+    In chapter 22, you'll be introduced to this website and to the
+    components that are common to all of its applications. In chapter 23, you'll
+    view the user interface for the applications that let end users listen to sound
+    files and order albums. In addition, you'll view the user interface for the
+    applications that let administrators process orders and prepare reports.
+
+    Although the Music Store website isn’t a real website, it illustrates
+    the skills that you need for developing a real site. As you study it, you'll
+    see that it requires only the skills that are presented in this book. In other
+    words, this book presents everything you need to know to develop an
+    e-commerce website like this one.
+
+
+===============================================================================================================
+Chapter 22 - An introduction to the Music Store website
+    The website described in this chapter uses JDBC to work with database.(on their website there is a downloadeble version with
+    JPA)
+
+    /Users/danteshte/Downloads/servlet_and_jsp/netbeans/book_apps
+        this is where you can find the source code for the app.
+
+    The code for the Home page
+        All of the include files are stored in the includes subdirectory of the root
+        directory. The header.jsp file provides an Admin link that allows you to view
+        the web applications for the administrators of the website. This makes it easy
+        for you to start the admin applications. In addition, this file provides a Delete
+        Cookies link that allows you to delete all cookies that the current browser is
+        sending to this application. This makes it easy for you to test how cookies work
+        with this application. However, these links are included for testing purposes
+        only. As a result, you would remove them after you’re done with testing.
+
+        Although this code is more complex than the code for most of the JSPs
+        presented in earlier chapters, it’s actually simpler than the code for most
+        real-world applications. Nevertheless, it’s common for a real-world application
+        to create a three-column layout like the one used by the Music Store site by
+        using aside or div tags with a CSS file as shown in this figure.
+
+    The business layer
+        a diagram of all JavaBeans is presented, and one of them has the source code...the others are fairly easy to code,
+        as they don't contain much logic, just mostly fields, setters, getters
+
+    The controller layer
+        all the controllers are servlets..
+
+    The database
+        (diagram and SQL script)
+
+    The data layer
+        Java classes for writing and reading data from the DB
+
+    The JPA version compared to the JDBC version
+        The user interface is the same for both versions of this website. In other
+        words, both websites use the same HTML and CSS.
+
+        The business and controller classes are also the same. However, the business
+        classes for the JPA version include the JPA annotations that map the business
+        objects to the database tables. Also, the controller code that writes data to the
+        database is slightly simpler in the JPA version.
+
+        The directory structure, the web.xml file, and the context.xml file are also
+        the same. However, the context.xml file for the JPA version only configures a
+        connection to the database named murach, not the database named music.
+
+   Differences
+    - The JPA version includes the EclipseLink library that implements the JPA specification.
+    - The JPA version includes a persistence.xml file that defines how JPA connects to the Music Store database.
+    - JPA automatically generates the tables for the database. As a result, the database for the JPA version has some
+    minor differences.
+    - The data access classes use JPA. As a result, they are shorter and more flexible.
+
+
+===============================================================================================================
+Chapter 23 - The applications of the website
+
+    The user interface for end users
+
+    The user interface for admins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================================================================
+JSF Tutorial
+    https://www.youtube.com/watch?v=U0YZiO1nKFs&list=PLCaS22Sjc8YRf7CsYx-9grOagq6TokClp
+
+  JSF - MVC framework used to create the UI for the server side application. It provides a set of
+        reusable UI components.
+
+  It also allows the implementation of custom components.
+  Provides event driven programming model.
+  Manages the UI state across multiple requests.
+
+  A UI component is an object with which the end user interacts. Each JSF component is associated with
+  tag handler. When JSF framework reads the JSF page, tag handlers corresponding to UI components execute and build
+  a component tree.
+
+!!!! MVC =>
+  Java Beans (Dan : or CDI beans, as I used in the example from the book) acts like a MODEL.
+  JSP or Facelets act as the VIEW.
+  Faces Servlet acts as the controller and uses the component tree to get requests, gather, validate, convert user input
+  and put it in the model objects, action invocation and render response.
+
+  JSF lifecycle:
+    - restore view
+        - in this phase, the component tree is created and is stored in the FacesContext instance
+    - apply request values
+        - components in the components tree will retrieve their values from the request
+    - process validations
+        - in this phase, all validators and convertors are executed. iF validation passes, all other phases execute
+        normally, otherwise JSF implementation adds an error message to the FacesContext instance and render response
+        phase executes directly (so it jumps to the last phase)
+    - update model values
+        - bean properties are updated using corresponding UI component values
+    - invoke application
+        - IN THIS phase the business logic is executed after form submission
+    - render response
+        - here the output/response is sent to the browser
+
+    ManagedBean scopes
+        request scope - bean created when a request comes and destroyed after completing a response
+        view scope - bean created when a request comes and destroyed when view changes
+        session scope- bean created when a request for this bean is recieved, and destroyed when the session terminates
+        application scope - when a request for this bean is recieved and remain for the whole duration of the web application
+
+
+    JSF navigation (moving from one webpage to another) is of 2 types:
+        1. static navigation
+        2. dynamic navigation
+
+    Rule based navigation can be used to implement both static and dynamic navigation
+!!! By default, JSF always performs page forward request during navigation
+
+!!!!JSF Events
+        When user interacts with any UI an event is generated. To handle all these events, JSF provides the JSF
+        event model
+
+        JSF event model describes a set of events which can be generated from the JSF UI or during JSF lifecycle execution
+        JSF events can be classified as
+            1.Application events
+            2.Lifecycle events
+
+       Application events have several subtypes:
+            1. Action events - generated on button or link click
+            2. Value change events - generated when the value of a UI element such as input text changes
+
+       Lifecycle events also have several subtypes:
+            1. Phase events - generated between each phase of life cycle
+            2. System events - generated when application specific action occurs like initialization of JSF application
+            or addition of UI elements to the view
+
+===============================================================================================================
+PrimeFaces tutorial
+       https://www.youtube.com/watch?v=EPsIiyJdKts&list=PLCaS22Sjc8YQ0bvX0OLwdS6-Fw6ppr77Z
+
+    Primefaces is an opensourced, UI library for JSF
+    It provides a rich set of UI components (more than 100), ajax support, theme and many other things
+
+    I am using version 12 of the library..below is the documentation
+    https://primefaces.github.io/primefaces/12_0_0/#/gettingstarted/download
+
+    How to use icons :
+        https://www.primefaces.org/diamond/icons.xhtml
+        see example in growl.xhtml
+
+
+TODO You could create something similar to Download app from the book page 226 ...
+TODO Create an online store similar to Music Store from this book
+            /Users/danteshte/Downloads/servlet_and_jsp/netbeans/book_apps
+                this is where you can find the source code for the app.
+    (i would do it in a container way, using MongoDB and JPA...so that it is easy to run... also maybe you can use
+    JSF instead of JSTL )
 
 
 Video tutorial links
@@ -464,4 +2957,28 @@ https://www.youtube.com/watch?v=zk_zEp-mtvQ&list=PLE0F6C1917A427E96&index=19
 
 Other relevant articles
 
+https://jakarta.ee/specifications/faces/3.0/jakarta-faces-3.0.html                          !!!!!!!!!!!!!
+
 https://www.javatpoint.com/model-1-and-model-2-mvc-architecture
+https://www.quora.com/Do-I-need-to-know-JSTL-to-become-Java-developer-Is-it-worth-to-learn
+    (so...i did not spend much time on JSTL stuff)
+
+https://stackoverflow.com/questions/5890192/what-are-the-effects-of-disabling-scripting-in-a-jsp
+
+https://stackoverflow.com/questions/3791484/why-use-the-j-username-and-spring-security-last-username-variables
+
+https://www.primefaces.org/gettingstarted/
+    This library extends the implementations of JSF with more UI elements and capabilities..
+
+https://stackoverflow.com/questions/38040947/the-type-managedbean-is-deprecated
+    JSF @ManagedBean is deprecated...this is how one should code it today
+
+Open Liberty relevant links
+    https://openliberty.io/docs/latest/reference/feature/transportSecurity-1.0.html
+        how to set up TLS / https
+    https://openliberty.io/docs/latest/security-hardening.html
+        various ways to enhance the security of your liberty app divided into 3 sections
+            Server configuration
+            Network
+            Application configuration
+    https://openliberty.io/guides/security-intro.html
